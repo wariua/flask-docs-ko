@@ -6,7 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = Flask
 SOURCEDIR     = .
-BUILDDIR      = _build
+BUILDDIR      = ../../../builds/1.0
 
 # Put it first so that "make" without argument is like "make help".
 help:
