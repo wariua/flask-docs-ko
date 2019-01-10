@@ -1,24 +1,24 @@
 :orphan:
 
-Welcome to Flask
-================
+플라스크 열기
+=============
 
 .. image:: _static/logo-full.png
     :alt: Flask: web development, one drop at a time
     :align: right
 
-Welcome to Flask's documentation. Get started with :ref:`installation`
-and then get an overview with the :ref:`quickstart`. There is also a
-more detailed :ref:`tutorial` that shows how to create a small but
-complete application with Flask. Common patterns are described in the
-:ref:`patterns` section. The rest of the docs describe each component of
-Flask in detail, with a full reference in the :ref:`api` section.
+플라스크(Flask) 문서를 읽게 된 걸 환영한다. :ref:`installation` 로
+시작한 다음 :ref:`quickstart` 절에서 전체적으로 둘러보면 된다. 더 자세한
+:ref:`tutorial` 절에선 작지만 완전한 응용을 플라스크로 만드는 방법을
+보게 된다. 그리고 :ref:`patterns` 절에는 많이 쓰는 패턴들이 설명돼 있다.
+문서 나머지에선 플라스크의 구성 요소 각각을 자세히 설명하며 :ref:`api`
+절에는 완전한 참조 문서가 있다.
 
-Flask depends on the `Jinja`_ template engine and the `Werkzeug`_ WSGI
-toolkit. The documentation for these libraries can be found at:
+플라스크를 쓰려면 `Jinja`_ 템플릿 엔진과 `Werkzeug`_ WSGI 툴킷이
+필요하다. 다음 사이트에서 그 라이브러리들의 문서를 볼 수 있다.
 
-- `Jinja documentation <http://jinja.pocoo.org/docs>`_
-- `Werkzeug documentation <http://werkzeug.pocoo.org/docs>`_
+- `Jinja 문서 <http://jinja.pocoo.org/docs>`_
+- `Werkzeug 문서 <http://werkzeug.pocoo.org/docs>`_
 
 .. _Jinja: https://www.palletsprojects.com/p/jinja/
 .. _Werkzeug: https://www.palletsprojects.com/p/werkzeug/
