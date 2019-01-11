@@ -1,9 +1,8 @@
-User's Guide
-------------
+사용자 가이드
+-------------
 
-This part of the documentation, which is mostly prose, begins with some
-background information about Flask, then focuses on step-by-step
-instructions for web development with Flask.
+주로 산문체인 이 부분에서는 플라스크에 대한 몇 가지 배경 정보로
+시작한 다음 플라스크로 웹 개발을 하는 방법들을 차례로 설명한다.
 
 .. toctree::
    :maxdepth: 2
@@ -31,21 +30,20 @@ instructions for web development with Flask.
    deploying/index
    becomingbig
 
-API Reference
+API 참조 문서
 -------------
 
-If you are looking for information on a specific function, class or
-method, this part of the documentation is for you.
+특정 함수나 클래스, 메소드에 대한 내용을 찾는다면 여기를 보면 된다.
 
 .. toctree::
    :maxdepth: 2
 
    api
 
-Additional Notes
-----------------
+추가 문서
+---------
 
-Design notes, legal information and changelog are here for the interested.
+관심 있는 이들을 위한 설계 문서, 법률 정보, 변경 이력 등이 있다.
 
 .. toctree::
    :maxdepth: 2
