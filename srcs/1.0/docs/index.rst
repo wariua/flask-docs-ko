@@ -4,7 +4,7 @@
 =============
 
 .. image:: _static/logo-full.png
-    :alt: Flask: web development, one drop at a time
+    :alt: 플라스크: 웹 개발, 한 번에 한 방울씩
     :align: right
 
 플라스크(Flask) 문서를 읽게 된 걸 환영한다. :ref:`installation` 로
