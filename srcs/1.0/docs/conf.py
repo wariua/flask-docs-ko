@@ -39,12 +39,12 @@ intersphinx_mapping = {
 html_theme = 'flask'
 html_context = {
     'project_links': [
-        ProjectLink('Donate to Pallets', 'https://psfmember.org/civicrm/contribute/transact?reset=1&id=20'),
-        ProjectLink('Flask Website', 'https://palletsprojects.com/p/flask/'),
-        ProjectLink('PyPI releases', 'https://pypi.org/project/Flask/'),
-        ProjectLink('Source Code', 'https://github.com/pallets/flask/'),
+        ProjectLink('Pallets에 후원하기', 'https://psfmember.org/civicrm/contribute/transact?reset=1&id=20'),
+        ProjectLink('플라스크 웹사이트', 'https://palletsprojects.com/p/flask/'),
+        ProjectLink('PyPI 릴리스', 'https://pypi.org/project/Flask/'),
+        ProjectLink('소스 코드', 'https://github.com/pallets/flask/'),
         ProjectLink(
-            'Issue Tracker', 'https://github.com/pallets/flask/issues/'),
+            '이슈 트래커', 'https://github.com/pallets/flask/issues/'),
     ],
     'versions': [
         DocVersion('dev', 'Development', 'unstable'),
