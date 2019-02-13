@@ -1,17 +1,17 @@
 .. _quickstart:
 
-Quickstart
-==========
+빨리 해 보기
+============
 
-Eager to get started?  This page gives a good introduction to Flask.  It
-assumes you already have Flask installed.  If you do not, head over to the
-:ref:`installation` section.
+얼른 돌려 보고 싶은가? 이 페이지에서 플라스크를 제대로 만나 볼 수 있다.
+플라스크가 이미 설치돼 있다고 가정하고 있으니 아직 설치하지 않았다면
+:ref:`installation` 절로 가자.
 
 
-A Minimal Application
----------------------
+가장 작은 응용
+--------------
 
-A minimal Flask application looks something like this::
+가장 작은 플라스크 응용은 다음 정도가 될 것이다. ::
 
     from flask import Flask
     app = Flask(__name__)
@@ -20,166 +20,158 @@ A minimal Flask application looks something like this::
     def hello_world():
         return 'Hello, World!'
 
-So what did that code do?
+이 코드에서 뭘 하고 있는지 보자.
 
-1. First we imported the :class:`~flask.Flask` class.  An instance of this
-   class will be our WSGI application.
-2. Next we create an instance of this class. The first argument is the name of
-   the application's module or package.  If you are using a single module (as
-   in this example), you should use ``__name__`` because depending on if it's
-   started as application or imported as module the name will be different
-   (``'__main__'`` versus the actual import name). This is needed so that
-   Flask knows where to look for templates, static files, and so on. For more
-   information have a look at the :class:`~flask.Flask` documentation.
-3. We then use the :meth:`~flask.Flask.route` decorator to tell Flask what URL
-   should trigger our function.
-4. The function is given a name which is also used to generate URLs for that
-   particular function, and returns the message we want to display in the
-   user's browser.
+1. 먼저 :class:`~flask.Flask` 클래스를 임포트 한다. 이 클래스의 인스턴스가
+   우리의 WSGI 응용이 된다.
+2. 다음으로 이 클래스의 인스턴스를 생성한다. 첫 번째 인자는 응용의 모듈
+   이름이나 패키지 이름이다. (이 예처럼) 단일 모듈이라면 ``__name__`` 을
+   쓰는 게 좋은데, 응용으로 실행되느냐 모듈로 임포트 되느냐에 따라 이름이
+   (``'__main__'`` 또는 실제 임포트 이름으로) 달라지기 때문이다. 그래야
+   플라스크에서 템플릿, 정적 파일 등을 어디에서 찾아야 할지 알 수 있다.
+   더 자세한 정보는 :class:`~flask.Flask` 문서를 보라.
+3. 그러고서 :meth:`~flask.Flask.route` 데코레이터를 써서 어떤 URL이 우리
+   함수를 동작시켜야 할지 플라스크에게 알려 준다.
+4. 함수에 주는 이름이 그 특정 함수에 대한 URL을 생성하는 데 쓰이기도 한다.
+   사용자의 브라우저에 표시하려는 메시지를 함수에서 반환한다.
 
-Just save it as :file:`hello.py` or something similar. Make sure to not call
-your application :file:`flask.py` because this would conflict with Flask
-itself.
+:file:`hello.py` 나 비슷한 이름으로 저장하자. 응용 이름을 :file:`flask.py`
+라고 하지는 않도록 하자. 플라스크 자체와 충돌하게 된다.
 
-To run the application you can either use the :command:`flask` command or
-python's ``-m`` switch with Flask.  Before you can do that you need
-to tell your terminal the application to work with by exporting the
-``FLASK_APP`` environment variable::
+:command:`flask` 명령으로, 또는 파이썬 ``-m`` 인자에 플라스크를 지정해서
+응용을 실행할 수 있다. 그 전에 ``FLASK_APP`` 환경 변수를 터미널로 내보여서
+돌리려는 응용이 뭔지 알려 주어야 한다. ::
 
     $ export FLASK_APP=hello.py
     $ flask run
      * Running on http://127.0.0.1:5000/
 
-If you are on Windows, the environment variable syntax depends on command line
-interpreter. On Command Prompt::
+윈도우에서는 명령행 인터프리터에 따라 환경 변수 문법이 다르다. 명령
+프롬프트에서는 다음과 같다. ::
 
     C:\path\to\app>set FLASK_APP=hello.py
 
-And on PowerShell::
+파워셸에서는 다음과 같다. ::
 
     PS C:\path\to\app> $env:FLASK_APP = "hello.py"
 
-Alternatively you can use :command:`python -m flask`::
+대신 :command:`python -m flask` 방식을 쓸 수도 있다. ::
 
     $ export FLASK_APP=hello.py
     $ python -m flask run
      * Running on http://127.0.0.1:5000/
 
-This launches a very simple builtin server, which is good enough for testing
-but probably not what you want to use in production. For deployment options see
-:ref:`deployment`.
+그러면 아주 간단한 내장 서버가 뜬다. 테스트 용도로는 충분하지만 실제
+운용에서 사용할 만한 건 아니다. 도입 방식에 대해선 :ref:`deployment` 참고.
 
-Now head over to `http://127.0.0.1:5000/ <http://127.0.0.1:5000/>`_, and you
-should see your hello world greeting.
+이제 `http://127.0.0.1:5000/ <http://127.0.0.1:5000/>`_ 로 가 보자. 헬로월드
+인사를 볼 수 있을 것이다.
 
 .. _public-server:
 
-.. admonition:: Externally Visible Server
+.. admonition:: 서버 외부로 드러내기
 
-   If you run the server you will notice that the server is only accessible
-   from your own computer, not from any other in the network.  This is the
-   default because in debugging mode a user of the application can execute
-   arbitrary Python code on your computer.
+   서버를 실행해 보면 그 컴퓨터에서만 서버에 접근할 수 있고 네트워크의
+   다른 컴퓨터에서는 안 되는 걸 알 수 있다. 이게 기본 동작이다. 디버깅
+   모드에서는 응용 사용자가 서버가 도는 컴퓨터에서 임의의 파이썬 코드를
+   실행할 수 있기 때문이다.
 
-   If you have the debugger disabled or trust the users on your network,
-   you can make the server publicly available simply by adding
-   ``--host=0.0.0.0`` to the command line::
+   디버거를 껐거나 네트워크 상의 사용자들을 믿을 수 있는 경우에는 명령행에
+   ``--host=0.0.0.0`` 만 추가하면 모두가 서버를 쓸 수 있게 된다.
 
        flask run --host=0.0.0.0
 
-   This tells your operating system to listen on all public IPs.
+   이렇게 하면 운영 체제가 모든 공개 IP들로 연결을 받게 된다.
 
 
-What to do if the Server does not Start
----------------------------------------
+서버 시작이 안 될 때
+--------------------
 
-In case the :command:`python -m flask` fails or :command:`flask` does not exist,
-there are multiple reasons this might be the case.  First of all you need
-to look at the error message.
+:command:`python -m flask` 명령이 실패하거나 :command:`flask` 명령이
+없다고 나온다면 가능한 원인이 여러 가지 있다. 먼저 오류 메시지를
+들여다봐야 한다.
 
-Old Version of Flask
-````````````````````
+플라스크 구식 버전
+``````````````````
 
-Versions of Flask older than 0.11 use to have different ways to start the
-application.  In short, the :command:`flask` command did not exist, and
-neither did :command:`python -m flask`.  In that case you have two options:
-either upgrade to newer Flask versions or have a look at the :ref:`server`
-docs to see the alternative method for running a server.
+플라스크 버전 0.11 전에서는 응용을 시작하는 방식이 다르다. 요컨대
+:command:`flask` 명령도 없었고 :command:`python -m flask` 도 없었다.
+이 경우 두 가지 선택지가 있다. 더 최근의 플라스크 버전으로
+업그레이드 하거나 :ref:`server` 부분에서 서버를 실행하는 다른
+방법을 보면 된다.
 
-Invalid Import Name
-```````````````````
+잘못된 임포트 이름
+``````````````````
 
-The ``FLASK_APP`` environment variable is the name of the module to import at
-:command:`flask run`. In case that module is incorrectly named you will get an
-import error upon start (or if debug is enabled when you navigate to the
-application). It will tell you what it tried to import and why it failed.
+``FLASK_APP`` 환경 변수는 :command:`flask run` 에서 임포트 할 모듈의
+이름이다. 모듈 이름을 잘못 준 경우에는 시작 시에 (또는 디버깅이 켜져
+있으면 응용을 열 때) 임포트 오류가 나게 된다. 뭘 임포트 하려고 했고
+왜 실패했는지 나올 것이다.
 
-The most common reason is a typo or because you did not actually create an
-``app`` object.
+가장 흔한 원인은 오타 때문이거나 ``app`` 객체를 만들어 주지 않아서이다.
 
 .. _debug-mode:
 
-Debug Mode
-----------
+디버그 모드
+-----------
 
-(Want to just log errors and stack traces? See :ref:`application-errors`)
+(오류와 스택 트레이스를 찍고 싶은 건가? :ref:`application-errors` 를 보라.)
 
-The :command:`flask` script is nice to start a local development server, but
-you would have to restart it manually after each change to your code.
-That is not very nice and Flask can do better.  If you enable debug
-support the server will reload itself on code changes, and it will also
-provide you with a helpful debugger if things go wrong.
+:command:`flask` 스크립트로 로컬 개발 서버를 시작하는 게 간편하긴
+하지만 코드에 변경이 있을 때마다 수동으로 재시작을 해 줘야 한다.
+그리 간편한 방식이 아닌데 편리하게 만들 방법이 있다. 디버그 지원을
+켜면 코드 변경 시 서버가 알아서 재시작을 하고, 또 뭔가 잘못된 경우
+유용한 디버거가 제공된다.
 
-To enable all development features (including debug mode) you can export
-the ``FLASK_ENV`` environment variable and set it to ``development``
-before running the server::
+모든 개발용 기능들(디버그 모드 포함)을 켜려면 서버 시작 전에 환경
+변수 ``FLASK_ENV`` 를 ``development`` 로 설정해서 내보이면 된다. ::
 
     $ export FLASK_ENV=development
     $ flask run
 
-(On Windows you need to use ``set`` instead of ``export``.)
+(윈도우에선 ``export`` 대신 ``set`` 을 써야 한다.)
 
-This does the following things:
+그러면,
 
-1.  it activates the debugger
-2.  it activates the automatic reloader
-3.  it enables the debug mode on the Flask application.
+1.  디버거를 활성화하고
+2.  자동 재적재를 활성화하고
+3.  플라스크 응용에 디버그 모드를 켠다.
 
-You can also control debug mode separately from the environment by
-exporting ``FLASK_DEBUG=1``.
+환경과 별도로 디버그 모드를 제어할 수도 있다. ``FLASK_DEBUG=1`` 을
+내보이면 된다.
 
-There are more parameters that are explained in the :ref:`server` docs.
+더 많은 매개변수들이 있는데 :ref:`server` 부분에서 설명한다.
 
-.. admonition:: Attention
+.. admonition:: 주의
 
-   Even though the interactive debugger does not work in forking environments
-   (which makes it nearly impossible to use on production servers), it still
-   allows the execution of arbitrary code. This makes it a major security risk
-   and therefore it **must never be used on production machines**.
+   포크를 하는 환경에서는 대화형 디버거가 동작하지 않기는 하지만 (그래서
+   실제 운용 서버에서는 사용이 거의 불가능하다.) 그래도 임의 코드의 실행이
+   가능하기는 하다. 이는 중대한 보안적 위험이며 따라서 **실제 운용
+   머신에서는 절대 사용해선 안 된다**.
 
-Screenshot of the debugger in action:
+디버거 동작 스크린샷:
 
 .. image:: _static/debugger.png
    :align: center
    :class: screenshot
-   :alt: screenshot of debugger in action
+   :alt: 디버거 동작 스크린샷
 
-More information on using the debugger can be found in the `Werkzeug
-documentation`_.
+디버거 사용에 대한 내용은 `Werkzeug 문서`_ 에서 볼 수 있다.
 
-.. _Werkzeug documentation: http://werkzeug.pocoo.org/docs/debug/#using-the-debugger
+.. _Werkzeug 문서: http://werkzeug.pocoo.org/docs/debug/#using-the-debugger
 
-Have another debugger in mind? See :ref:`working-with-debuggers`.
+다른 디버거를 생각하고 있다면? :ref:`working-with-debuggers` 를 보라.
 
 
-Routing
--------
+루트 만들기
+-----------
 
-Modern web applications use meaningful URLs to help users. Users are more
-likely to like a page and come back if the page uses a meaningful URL they can
-remember and use to directly visit a page.
+요즘 웹 응용들은 사용자를 위해 의미 있는 URL을 사용한다. 페이지에
+의미 있는 URL을 사용해서 사용자가 그걸 기억할 수 있다면 페이지를
+마음에 들어 한 사용자가 다시 방문할 가능성이 더 높을 것이다.
 
-Use the :meth:`~flask.Flask.route` decorator to bind a function to a URL. ::
+:meth:`~flask.Flask.route` 데코레이터를 사용해 함수와 URL을
+연결할 수 있다. ::
 
     @app.route('/')
     def index():
@@ -189,46 +181,46 @@ Use the :meth:`~flask.Flask.route` decorator to bind a function to a URL. ::
     def hello():
         return 'Hello, World'
 
-You can do more! You can make parts of the URL dynamic and attach multiple
-rules to a function.
+이게 끝이 아니다! URL 일부를 동적으로 만들거나 한 함수에 여러 규칙을
+붙일 수도 있다.
 
-Variable Rules
-``````````````
+변수 규칙
+`````````
 
-You can add variable sections to a URL by marking sections with
-``<variable_name>``. Your function then receives the ``<variable_name>``
-as a keyword argument. Optionally, you can use a converter to specify the type
-of the argument like ``<converter:variable_name>``. ::
+URL에 ``<변수_이름>`` 표시를 해서 변수 부분을 추가할 수 있다.
+그러면 함수에서 그 ``<변수_이름>`` 을 키워드 인자로 받는다.
+선택적으로 ``<변환자:변수_이름>`` 처럼 변환자를 써서 인자 타입을
+지정할 수 있다. ::
 
     @app.route('/user/<username>')
     def show_user_profile(username):
-        # show the user profile for that user
+        # 이 사용자의 사용자 프로필 표시
         return 'User %s' % username
 
     @app.route('/post/<int:post_id>')
     def show_post(post_id):
-        # show the post with the given id, the id is an integer
+        # 주어진 id의 글 표시. id는 정수
         return 'Post %d' % post_id
 
     @app.route('/path/<path:subpath>')
     def show_subpath(subpath):
-        # show the subpath after /path/
+        # /path/ 뒤의 하위 경로 표시
         return 'Subpath %s' % subpath
 
-Converter types:
+변환자 종류:
 
 ========== ==========================================
-``string`` (default) accepts any text without a slash
-``int``    accepts positive integers
-``float``  accepts positive floating point values
-``path``   like ``string`` but also accepts slashes
-``uuid``   accepts UUID strings
+``string`` (기본) 슬래시 없는 텍스트 받음
+``int``    양의 정수 받음
+``float``  양의 실수 받음
+``path``   ``string`` 과 같되 슬래시도 받아들임
+``uuid``   UUID 문자열 받음
 ========== ==========================================
 
-Unique URLs / Redirection Behavior
-``````````````````````````````````
+고유 URL / 재지향 동작
+``````````````````````
 
-The following two rules differ in their use of a trailing slash. ::
+다음 두 규칙에서는 마지막 슬래시 사용 여부가 다르다. ::
 
     @app.route('/projects/')
     def projects():
@@ -238,46 +230,47 @@ The following two rules differ in their use of a trailing slash. ::
     def about():
         return 'The about page'
 
-The canonical URL for the ``projects`` endpoint has a trailing slash.
-It's similar to a folder in a file system. If you access the URL without
-a trailing slash, Flask redirects you to the canonical URL with the
-trailing slash.
+``projects`` 종점의 정식 URL에는 끝에 슬래시가 있다.
+파일 시스템의 폴더와 비슷하다. 그 URL에 마지막 슬래시
+없이 접근하면 플라스크가 마지막 슬래시 있는 정식 URL로
+재지향 한다.
 
-The canonical URL for the ``about`` endpoint does not have a trailing
-slash. It's similar to the pathname of a file. Accessing the URL with a
-trailing slash produces a 404 "Not Found" error. This helps keep URLs
-unique for these resources, which helps search engines avoid indexing
-the same page twice.
+``about`` 종점의 정식 URL에는 끝에 슬래시가 없다.
+파일 경로명과 비슷하다. 끝에 슬래시가 있는 URL에 접근하면
+404 "Not Found" 오류가 발생한다. 이렇게 하면 이 자원에 대한
+URL을 유일하게 유지할 수 있고, 그러면 검색 엔진이 같은
+페이지를 두 번 인덱싱 하는 걸 피할 수 있게 된다.
 
 
 .. _url-building:
 
-URL Building
-````````````
+URL 만들기
+``````````
 
-To build a URL to a specific function, use the :func:`~flask.url_for` function.
-It accepts the name of the function as its first argument and any number of
-keyword arguments, each corresponding to a variable part of the URL rule.
-Unknown variable parts are appended to the URL as query parameters.
+특정 함수로 가는 URL을 만들려면 :func:`~flask.url_for` 함수를
+쓰면 된다. 함수 인자를 첫 번째 인자로 받고 URL 규칙의 변수
+부분에 각기 대응하는 임의 개수의 키워드 인자를 받는다.
+대응하는 변수 부분이 없으면 URL 뒤에 질의 매개변수로 덧붙는다.
 
-Why would you want to build URLs using the URL reversing function
-:func:`~flask.url_for` instead of hard-coding them into your templates?
+왜 템플릿에 하드 코딩 하는 대신 URL 역함수 :func:`~flask.url_for`
+를 써서 URL를 만들어야 할까?
 
-1. Reversing is often more descriptive than hard-coding the URLs.
-2. You can change your URLs in one go instead of needing to remember to
-    manually change hard-coded URLs.
-3. URL building handles escaping of special characters and Unicode data
-    transparently.
-4. The generated paths are always absolute, avoiding unexpected behavior
-   of relative paths in browsers.
-5. If your application is placed outside the URL root, for example, in
-    ``/myapplication`` instead of ``/``, :func:`~flask.url_for` properly
-    handles that for you.
+1. 역함수가 URL을 하드 코딩 하는 것보다 서술적인 경우가 많다.
+2. 하드 코딩 된 URL들을 기억했다가 직접 바꿀 필요 없이 한 번에
+   URL을 바꿀 수 있다.
+3. URL 만들기 방식에서는 특수 문자 이스케이핑과 유니코드
+   데이터를 투명하게 처리해 준다.
+4. 생성되는 경로가 항상 절대 경로여서 브라우저에서 상대 경로의
+   예기치 못한 동작을 피한다.
+5. 응용을 URL 루트 밖에, 가령 ``/`` 대신 ``/myapplication`` 에
+   두는 경우에 :func:`~flask.url_for` 가 그걸 제대로 처리해
+   준다.
 
-For example, here we use the :meth:`~flask.Flask.test_request_context` method
-to try out :func:`~flask.url_for`. :meth:`~flask.Flask.test_request_context`
-tells Flask to behave as though it's handling a request even while we use a
-Python shell. See :ref:`context-locals`. ::
+예를 들어 다음과 같이 :meth:`~flask.Flask.test_request_context`
+메소드를 사용해 :func:`~flask.url_for` 를 써 볼 수 있다.
+:meth:`~flask.Flask.test_request_context` 는 파이썬 셸을 쓰는
+동안에도 플라스크가 요청을 처리할 때처럼 동작하게 한다.
+:ref:`context-locals` 참고. ::
 
     from flask import Flask, url_for
 
@@ -306,14 +299,13 @@ Python shell. See :ref:`context-locals`. ::
     /login?next=/
     /user/John%20Doe
 
-HTTP Methods
-````````````
+HTTP 메소드
+```````````
 
-Web applications use different HTTP methods when accessing URLs. You should
-familiarize yourself with the HTTP methods as you work with Flask. By default,
-a route only answers to ``GET`` requests. You can use the ``methods`` argument
-of the :meth:`~flask.Flask.route` decorator to handle different HTTP methods.
-::
+웹 응용에서는 URL 접근에 다양한 HTTP 메소드를 쓴다. 플라스크로 작업을
+하자면 HTTP 메소드들에 익숙해질 필요가 있다. 기본적으로 route는
+``GET`` 요청에만 답을 하는데 :meth:`~flask.Flask.route` 데코레이터의
+``methods`` 인자를 써서 다른 HTTP 메소드들을 처리할 수 있다. ::
 
     from flask import request
 
@@ -324,39 +316,41 @@ of the :meth:`~flask.Flask.route` decorator to handle different HTTP methods.
         else:
             return show_the_login_form()
 
-If ``GET`` is present, Flask automatically adds support for the ``HEAD`` method
-and handles ``HEAD`` requests according to the `HTTP RFC`_. Likewise,
-``OPTIONS`` is automatically implemented for you.
+``GET`` 이 있으면 플라스크에서 자동으로 ``HEAD`` 메소드 지원을 추가해서
+`HTTP RFC`_ 에 따라 ``HEAD`` 요청을 처리한다. 마찬가지로 ``OPTIONS`` 를
+자동으로 처리해 준다.
 
 .. _HTTP RFC: https://www.ietf.org/rfc/rfc2068.txt
 
-Static Files
-------------
+정적 파일
+---------
 
-Dynamic web applications also need static files.  That's usually where
-the CSS and JavaScript files are coming from.  Ideally your web server is
-configured to serve them for you, but during development Flask can do that
-as well.  Just create a folder called :file:`static` in your package or next to
-your module and it will be available at ``/static`` on the application.
+동적 웹 응용에서도 정적 파일이 필요하다. 보통 CSS와 자바스크립트
+파일들이 해당된다. 이상적으로는 웹 서버가 그 파일들을 다루도록
+구성하게 되겠지만 개발 중에는 플라스크가 그 역할을 해 줄 수도 있다.
+패키지 안이나 모듈 바로 옆에 :file:`static` 이라는 폴더를 만들기만
+하면 응용에서 ``/static`` 으로 쓸 수 있게 된다.
 
-To generate URLs for static files, use the special ``'static'`` endpoint name::
+정적 파일에 대한 URL을 만들려면 특수 종점명 ``'static'`` 을 쓰면
+된다. ::
 
     url_for('static', filename='style.css')
 
-The file has to be stored on the filesystem as :file:`static/style.css`.
+파일 시스템 상에 파일이 :file:`static/style.css` 로 저장돼 있으면
+된다.
 
-Rendering Templates
--------------------
+템플릿 렌더링
+-------------
 
-Generating HTML from within Python is not fun, and actually pretty
-cumbersome because you have to do the HTML escaping on your own to keep
-the application secure.  Because of that Flask configures the `Jinja2
-<http://jinja.pocoo.org/>`_ template engine for you automatically.
+파이썬에서 HTML을 만들어 내는 건 재밌는 일이 아니다. 사실 꽤나
+귀찮은 일인데, 응용을 안전하게 유지하기 위해 HTML 이스케이핑을
+직접 해 줘야 하기 때문이다. 그래서 플라스크는 기본적으로
+`Jinja2 <http://jinja.pocoo.org/>`_ 템플릿 엔진을 이용하게 돼 있다.
 
-To render a template you can use the :func:`~flask.render_template`
-method.  All you have to do is provide the name of the template and the
-variables you want to pass to the template engine as keyword arguments.
-Here's a simple example of how to render a template::
+템플릿을 렌더링 하려면 :func:`~flask.render_template` 메소드를
+쓰면 된다. 템플릿 이름, 그리고 템플릿 엔진에 전달할 변수들을
+키워드 인자로 주기만 하면 된다. 다음은 간단한 템플릿 렌더링
+예시이다. ::
 
     from flask import render_template
 
@@ -365,28 +359,27 @@ Here's a simple example of how to render a template::
     def hello(name=None):
         return render_template('hello.html', name=name)
 
-Flask will look for templates in the :file:`templates` folder.  So if your
-application is a module, this folder is next to that module, if it's a
-package it's actually inside your package:
+:file:`templates` 폴더에서 플라스크가 템플릿을 찾게 된다.
+작성하는 응용이 모듈이라면 모듈 바로 옆에 그 폴더가 있게 되고
+패키지라면 패키지 안에 있게 된다.
 
-**Case 1**: a module::
+**경우 1**: 모듈::
 
     /application.py
     /templates
         /hello.html
 
-**Case 2**: a package::
+**경우 2**: 패키지::
 
     /application
         /__init__.py
         /templates
             /hello.html
 
-For templates you can use the full power of Jinja2 templates.  Head over
-to the official `Jinja2 Template Documentation
-<http://jinja.pocoo.org/docs/templates>`_ for more information.
+템플릿에서 Jinja2 템플릿 기능 전부를 이용할 수 있다. 자세한 내용은
+공식 `Jinja2 문서 <http://jinja.pocoo.org/docs/templates>`_ 를 보라.
 
-Here is an example template:
+다음은 예시 템플릿이다.:
 
 .. sourcecode:: html+jinja
 
@@ -398,23 +391,24 @@ Here is an example template:
       <h1>Hello, World!</h1>
     {% endif %}
 
-Inside templates you also have access to the :class:`~flask.request`,
-:class:`~flask.session` and :class:`~flask.g` [#]_ objects
-as well as the :func:`~flask.get_flashed_messages` function.
+템플릿 안에서 :class:`~flask.request`, :class:`~flask.session`,
+:class:`~flask.g` [#]_ 객체에 접근할 수 있으며
+:func:`~flask.get_flashed_messages` 함수에도 접근 가능하다.
 
-Templates are especially useful if inheritance is used.  If you want to
-know how that works, head over to the :ref:`template-inheritance` pattern
-documentation.  Basically template inheritance makes it possible to keep
-certain elements on each page (like header, navigation and footer).
+템플릿은 상속을 쓸 때 특히 유용하다. 어떻게 하는 건지 궁금하다면
+:ref:`template-inheritance` 패턴 문서로 가면 된다. 기본적으로는
+템플릿 상속을 통해 (헤더, 메뉴, 푸터 같은) 특정 요소들을 각
+페이지마다 넣는 게 가능하다.
 
-Automatic escaping is enabled, so if ``name`` contains HTML it will be escaped
-automatically.  If you can trust a variable and you know that it will be
-safe HTML (for example because it came from a module that converts wiki
-markup to HTML) you can mark it as safe by using the
-:class:`~jinja2.Markup` class or by using the ``|safe`` filter in the
-template.  Head over to the Jinja 2 documentation for more examples.
+자동 이스케이핑이 켜져 있으므로 ``name`` 에 HTML이 들어 있으면
+자동으로 이스케이프 된다. 변수를 신뢰할 수 있고 그게 안전한
+HTML이란 걸 알고 있다면 (예를 들어 위키 마크업을 HTML로 변환하는
+모듈에서 온 경우) :class:`~jinja2.Markup` 클래스를 쓰거나
+템플릿에 ``|safe`` 필터를 써서 안전하다고 표시할 수 있다.
+더 많은 예는 Jinja 2 문서를 보라.
 
-Here is a basic introduction to how the :class:`~jinja2.Markup` class works::
+다음은 :class:`~jinja2.Markup` 클래스 동작 방식을 보여 주는
+간단한 예이다. ::
 
     >>> from flask import Markup
     >>> Markup('<strong>Hello %s!</strong>') % '<blink>hacker</blink>'
@@ -426,90 +420,86 @@ Here is a basic introduction to how the :class:`~jinja2.Markup` class works::
 
 .. versionchanged:: 0.5
 
-   Autoescaping is no longer enabled for all templates.  The following
-   extensions for templates trigger autoescaping: ``.html``, ``.htm``,
-   ``.xml``, ``.xhtml``.  Templates loaded from a string will have
-   autoescaping disabled.
+   이제는 자동 이스케이핑이 모든 템플릿에 켜지지 않는다. 템플릿
+   확장자가 ``.html``, ``.htm``, ``.xml``, ``.xhtml`` 이면 자동
+   이스케이핑이 켜진다. 문자열에서 적재한 템플릿에선 자동
+   이스케이핑이 꺼져 있다.
 
-.. [#] Unsure what that :class:`~flask.g` object is? It's something in which
-   you can store information for your own needs, check the documentation of
-   that object (:class:`~flask.g`) and the :ref:`sqlite3` for more
-   information.
+.. [#] :class:`~flask.g` 객체가 뭔지 궁금한가? 필요한 대로
+   정보를 저장할 수 있는 무언가이다. 자세한 건 객체
+   (:class:`~flask.g`) 문서와 :ref:`sqlite3` 절을 보라.
 
 
-Accessing Request Data
+요청 데이터에 접근하기
 ----------------------
 
-For web applications it's crucial to react to the data a client sends to
-the server.  In Flask this information is provided by the global
-:class:`~flask.request` object.  If you have some experience with Python
-you might be wondering how that object can be global and how Flask
-manages to still be threadsafe.  The answer is context locals:
+웹 응용에 꼭 필요한 건 클라이언트가 서버로 보낸 데이터에 대응하는
+것이다. 플라스크에서는 그 정보가 전역 :class:`~flask.request`
+객체로 제공된다. 파이썬에 경험이 좀 있다면 어떻게 그 객체가
+전역인데도 플라스크가 스레드에 안전할 수 있는지 궁금할 수도
+있겠다. 답은 문맥 로컬에 있다.
 
 
 .. _context-locals:
 
-Context Locals
-``````````````
+문맥 로컬
+`````````
 
-.. admonition:: Insider Information
+.. admonition:: 내부용 정보
 
-   If you want to understand how that works and how you can implement
-   tests with context locals, read this section, otherwise just skip it.
+   문맥 로컬이 어떻게 동작하고 어떻게 테스트 해 볼 수 있는지
+   이해하고 싶다면 이 절을 읽고, 아니라면 그냥 건너 뛰면 된다.
 
-Certain objects in Flask are global objects, but not of the usual kind.
-These objects are actually proxies to objects that are local to a specific
-context.  What a mouthful.  But that is actually quite easy to understand.
+플라스크에서 어떤 객체들은 전역 객체이되 일반적인 전역은 아니다.
+그 객체들은 사실 특정 문맥에 로컬인 객체들로 가는 프록시이다.
+뭔 소린가 싶을 수도 있겠지만 사실 그리 이해하기 어려운 게 아니다.
 
-Imagine the context being the handling thread.  A request comes in and the
-web server decides to spawn a new thread (or something else, the
-underlying object is capable of dealing with concurrency systems other
-than threads).  When Flask starts its internal request handling it
-figures out that the current thread is the active context and binds the
-current application and the WSGI environments to that context (thread).
-It does that in an intelligent way so that one application can invoke another
-application without breaking.
+문맥이란 건 요청을 처리 중인 스레드라고 생각하면 된다. 요청이
+들어오면 웹 서버에서는 새 스레드를 (또는 스레드 아닌 다른 어떤
+동시성 시스템을 다룰 수 있는 기반 객체를) 만들기로 한다.
+그러면 플라스크에서는 내부 요청 처리를 시작할 때 현재 스레드가
+활성 문맥임을 알아내서 현 응용과 WSGI 환경을 그 문맥(스레드)과
+결속시킨다. 그걸 똑똑한 방식으로 해 주기 때문에 한 응용에서 다른
+응용을 문제 없이 호출할 수도 있다.
 
-So what does this mean to you?  Basically you can completely ignore that
-this is the case unless you are doing something like unit testing.  You
-will notice that code which depends on a request object will suddenly break
-because there is no request object.  The solution is creating a request
-object yourself and binding it to the context.  The easiest solution for
-unit testing is to use the :meth:`~flask.Flask.test_request_context`
-context manager.  In combination with the ``with`` statement it will bind a
-test request so that you can interact with it.  Here is an example::
+그래서 그게 어쨌다는 걸까? 기본적으로 유닛 테스트 비슷한 뭔가를
+하고 있는 게 아닌 한 그게 그런 거란 걸 아예 잊고 지낼 수 있다.
+하지만 맞다면 request 객체에 의존하는 코드가 갑자기 동작하지 않는
+걸 보게 될 것이다. request 객체가 없기 때문이다. 해법은 직접
+request 객체를 만들어서 문맥에 결속시키는 것이다. 유닛 테스팅에서
+가장 쉬운 해법은 :meth:`~flask.Flask.test_request_context` 문맥
+관리자를 쓰는 것이다. ``with`` 문과 함께 쓰면 테스트 문맥을
+결속시켜 주므로 request 객체를 이용할 수 있게 된다. 다음이 예이다. ::
 
     from flask import request
 
     with app.test_request_context('/hello', method='POST'):
-        # now you can do something with the request until the
-        # end of the with block, such as basic assertions:
+        # 이제 with 블록이 끝날 때까지 request로 이것저것
+        # 할 수 있다.
         assert request.path == '/hello'
         assert request.method == 'POST'
 
-The other possibility is passing a whole WSGI environment to the
-:meth:`~flask.Flask.request_context` method::
+또 다른 방법은 :meth:`~flask.Flask.request_context` 메소드에
+WSGI 환경 전체를 주는 것이다. ::
 
     from flask import request
 
     with app.request_context(environ):
         assert request.method == 'POST'
 
-The Request Object
-``````````````````
+request 객체
+````````````
 
-The request object is documented in the API section and we will not cover
-it here in detail (see :class:`~flask.Request`). Here is a broad overview of
-some of the most common operations.  First of all you have to import it from
-the ``flask`` module::
+API 절에서 request 객체를 설명하고 있으므로 여기에선 자세히 다루지 않겠다.
+(:class:`~flask.Request` 참고.) 여기선 흔히 쓰는 방식을 개략적으로 좀
+살펴본다. 일단은 ``flask`` 모듈에서 임포트 해야 한다. ::
 
     from flask import request
 
-The current request method is available by using the
-:attr:`~flask.Request.method` attribute.  To access form data (data
-transmitted in a ``POST`` or ``PUT`` request) you can use the
-:attr:`~flask.Request.form` attribute.  Here is a full example of the two
-attributes mentioned above::
+:attr:`~flask.Request.method` 속성을 이용해 현재 요청 메소드를 얻을 수
+있다. 폼 데이터(``POST`` 나 ``PUT`` 요청으로 전송된 데이터)에 접근하려면
+:attr:`~flask.Request.form` 속성을 쓰면 된다. 다음은 그 두 속성을 쓰는
+예시이다. ::
 
     @app.route('/login', methods=['POST', 'GET'])
     def login():
@@ -520,44 +510,42 @@ attributes mentioned above::
                 return log_the_user_in(request.form['username'])
             else:
                 error = 'Invalid username/password'
-        # the code below is executed if the request method
-        # was GET or the credentials were invalid
+        # 요청 메소드가 GET이었거나 인증 정보가 틀린
+        # 경우에 아래 코드가 실행됨
         return render_template('login.html', error=error)
 
-What happens if the key does not exist in the ``form`` attribute?  In that
-case a special :exc:`KeyError` is raised.  You can catch it like a
-standard :exc:`KeyError` but if you don't do that, a HTTP 400 Bad Request
-error page is shown instead.  So for many situations you don't have to
-deal with that problem.
+``form`` 속성에 키가 존재하지 않으면 어떻게 될까? 그 경우 :exc:`KeyError`
+예외가 일어난다. 표준 :exc:`KeyError` 처럼 잡을 수도 있고 안 잡으면
+404 Bad Request 오류 페이지가 대신 표시된다. 따라서 많은 경우에선 그
+문제를 직접 처리해 주지 않아도 된다.
 
-To access parameters submitted in the URL (``?key=value``) you can use the
-:attr:`~flask.Request.args` attribute::
+URL로 전달되는 매개변수(``?key=value``)에 접근하려면
+:attr:`~flask.Request.args` 속성을 쓰면 된다. ::
 
     searchword = request.args.get('key', '')
 
-We recommend accessing URL parameters with `get` or by catching the
-:exc:`KeyError` because users might change the URL and presenting them a 400
-bad request page in that case is not user friendly.
+URL 매개변수에 접근할 때 `get` 을 쓰거나 :exc:`KeyError` 를 잡기를
+권한다. 사용자가 URL을 바꿀 수도 있을 텐데 그 경우 사용자에게 400
+Bad Request 페이지를 보여 주는 건 친절하지가 않기 때문이다.
 
-For a full list of methods and attributes of the request object, head over
-to the :class:`~flask.Request` documentation.
+request 객체의 메소드와 속성 목록 전체는 :class:`~flask.Request`
+문서를 보면 된다.
 
 
-File Uploads
-````````````
+파일 업로드
+```````````
 
-You can handle uploaded files with Flask easily.  Just make sure not to
-forget to set the ``enctype="multipart/form-data"`` attribute on your HTML
-form, otherwise the browser will not transmit your files at all.
+업로드 된 파일을 플라스크로 쉽게 다룰 수 있다. 딱 하나, HTML 폼에
+``enctype="multipart/form-data"`` 속성 설정하는 것만 잊지 않으면
+된다. 설정하지 않으면 브라우저가 파일을 아예 전송하지 않을 것이다.
 
-Uploaded files are stored in memory or at a temporary location on the
-filesystem.  You can access those files by looking at the
-:attr:`~flask.request.files` attribute on the request object.  Each
-uploaded file is stored in that dictionary.  It behaves just like a
-standard Python :class:`file` object, but it also has a
-:meth:`~werkzeug.datastructures.FileStorage.save` method that allows you to store that
-file on the filesystem of the server.  Here is a simple example showing how
-that works::
+업로드 된 파일은 메모리 안이나 파일 시스템 상의 임시 위치에 저장된다.
+request 객체에서 :attr:`~flask.request.files` 속성을 살펴보면
+그 파일들에 접근할 수 있다. 업로드 된 파일 각각이 그 딕셔너리 안에
+저장돼 있다. 표준 파이썬 :class:`file` 객체처럼 동작하고 더불어
+:meth:`~werkzueg.datastructures.FileStorage.save` 메소드가 있어서
+그 파일을 서버 파일 시스템 상에 저장할 수도 있다. 다음은 사용
+방식을 보여 주는 간단한 예시이다. ::
 
     from flask import request
 
@@ -568,13 +556,12 @@ that works::
             f.save('/var/www/uploads/uploaded_file.txt')
         ...
 
-If you want to know how the file was named on the client before it was
-uploaded to your application, you can access the
-:attr:`~werkzeug.datastructures.FileStorage.filename` attribute.  However please keep in
-mind that this value can be forged so never ever trust that value.  If you
-want to use the filename of the client to store the file on the server,
-pass it through the :func:`~werkzeug.utils.secure_filename` function that
-Werkzeug provides for you::
+파일이 응용으로 업로드 되기 전에 클라이언트 상에서 어떤 이름이었는지
+알고 싶다면 :attr:`~werkzeug.datastructures.FileStorage.filename`
+속성을 보면 된다. 하지만 그 값은 조작될 수 있다는 점을 부디 유념해야
+하고 절대 그 값을 신뢰해서는 안 된다. 파일을 클라이언트에서의
+파일명으로 서버에 저장하고 싶다면 Werkzeug에서 제공하는
+:func:`~werkzeug.utils.secure_filename` 함수를 거치면 된다. ::
 
     from flask import request
     from werkzeug.utils import secure_filename
@@ -586,30 +573,29 @@ Werkzeug provides for you::
             f.save('/var/www/uploads/' + secure_filename(f.filename))
         ...
 
-For some better examples, checkout the :ref:`uploading-files` pattern.
+더 괜찮은 예시들은 :ref:`uploading-files` 패턴을 확인해 보라.
 
-Cookies
-```````
+쿠키
+````
 
-To access cookies you can use the :attr:`~flask.Request.cookies`
-attribute.  To set cookies you can use the
-:attr:`~flask.Response.set_cookie` method of response objects.  The
-:attr:`~flask.Request.cookies` attribute of request objects is a
-dictionary with all the cookies the client transmits.  If you want to use
-sessions, do not use the cookies directly but instead use the
-:ref:`sessions` in Flask that add some security on top of cookies for you.
+쿠키에 접근하려면 :attr:`~flask.Request.cookies` 속성을 이용하면 된다.
+그리고 쿠키를 설정하려면 response 객체의 :attr:`~flask.Response.set_cookie`
+메소드를 쓰면 된다. request 객체의 :attr:`~flask.Request.cookies`
+속성은 클라이언트가 보낸 모든 쿠키들이 있는 딕셔너리이다.
+세션을 이용하고 싶다면 쿠키를 직접 쓰지 말고 플라스크의
+:ref:`sessions` 를 이용하라. 쿠키 위에 보안성이 좀 추가돼 있다.
 
-Reading cookies::
+쿠키 읽기::
 
     from flask import request
 
     @app.route('/')
     def index():
         username = request.cookies.get('username')
-        # use cookies.get(key) instead of cookies[key] to not get a
-        # KeyError if the cookie is missing.
+        # 쿠키가 없을 때 KeyError를 받지 않기 위해
+        # cookies[key] 대신 cookies.get(key) 사용
 
-Storing cookies::
+쿠키 저장하기::
 
     from flask import make_response
 
@@ -619,23 +605,23 @@ Storing cookies::
         resp.set_cookie('username', 'the username')
         return resp
 
-Note that cookies are set on response objects.  Since you normally
-just return strings from the view functions Flask will convert them into
-response objects for you.  If you explicitly want to do that you can use
-the :meth:`~flask.make_response` function and then modify it.
+보다시피 response 객체에 쿠키를 설정한다. 보통은 view 함수에서
+문자열만 반환하고 말기 때문에 플라스크에서 그걸 response 객체로
+변환해 준다. :meth:`~flask.make_response` 함수로 그 과정을
+명시적으로 거친 다음 객체를 변경하면 된다.
 
-Sometimes you might want to set a cookie at a point where the response
-object does not exist yet.  This is possible by utilizing the
-:ref:`deferred-callbacks` pattern.
+때로는 response 객체가 아직 존재하지 않는 지점에서 쿠키를
+설정하고 싶을 수도 있을 것이다. :ref:`deferred-callbacks`
+패턴을 활용하면 가능하다.
 
-For this also see :ref:`about-responses`.
+관련해서 :ref:`about-responses` 도 참고.
 
-Redirects and Errors
---------------------
+재지향과 오류
+-------------
 
-To redirect a user to another endpoint, use the :func:`~flask.redirect`
-function; to abort a request early with an error code, use the
-:func:`~flask.abort` function::
+사용자를 다른 종점으로 재지향 하려면 :func:`~flask.redirect`
+함수를 쓰면 된다. 오류 코드를 주며 요청을 일찍 중단하고 싶으면
+:func:`~flask.abort` 함수를 쓰면 된다. ::
 
     from flask import abort, redirect, url_for
 
@@ -648,13 +634,13 @@ function; to abort a request early with an error code, use the
         abort(401)
         this_is_never_executed()
 
-This is a rather pointless example because a user will be redirected from
-the index to a page they cannot access (401 means access denied) but it
-shows how that works.
+사용자를 인덱스에서 접근 불가능한 (401은 접근 불가를 뜻함)
+페이지로 재지향 하는 것이니 좀 무의미한 예시이긴 하지만
+동작 방식을 잘 보여 준다.
 
-By default a black and white error page is shown for each error code.  If
-you want to customize the error page, you can use the
-:meth:`~flask.Flask.errorhandler` decorator::
+기본적으로 각 오류 코드마다 흑백 오류 페이지가 표시된다.
+그 오류 페이지를 바꾸고 싶다면 :meth:`~flask.Flask.errorhandler`
+데코레이터를 쓸 수 있다. ::
 
     from flask import render_template
 
@@ -662,47 +648,46 @@ you want to customize the error page, you can use the
     def page_not_found(error):
         return render_template('page_not_found.html'), 404
 
-Note the ``404`` after the :func:`~flask.render_template` call.  This
-tells Flask that the status code of that page should be 404 which means
-not found.  By default 200 is assumed which translates to: all went well.
+:func:`~flask.render_template` 호출 뒤의 ``404`` 에 유의하자.
+페이지의 상태 코드가 찾지 못했다는 뜻인 404여야 한다고 플라스크에게
+알려 주는 것이다. 지정하지 않으면 다 잘 됐다는 의미인 200을 상정한다.
 
-See :ref:`error-handlers` for more details.
+더 자세한 건 :ref:`error-handlers` 참고.
 
 .. _about-responses:
 
-About Responses
----------------
+응답에 대해
+-----------
 
-The return value from a view function is automatically converted into a
-response object for you.  If the return value is a string it's converted
-into a response object with the string as response body, a ``200 OK``
-status code and a :mimetype:`text/html` mimetype.  The logic that Flask applies to
-converting return values into response objects is as follows:
+view 함수의 반환 값은 자동으로 response 객체로 변환된다. 반환 값이
+문자열이면 그 문자열을 응답 바디로 하고 상태 코드 ``200 OK`` 에
+mimetype은 :mimetype:`text/html` 인 response 객체로 변환된다.
+반환 값을 response 객체로 변환할 때 플라스크에서 적용하는 로직은
+다음과 같다.
 
-1.  If a response object of the correct type is returned it's directly
-    returned from the view.
-2.  If it's a string, a response object is created with that data and the
-    default parameters.
-3.  If a tuple is returned the items in the tuple can provide extra
-    information.  Such tuples have to be in the form ``(response, status,
-    headers)`` or ``(response, headers)`` where at least one item has
-    to be in the tuple.  The ``status`` value will override the status code
-    and ``headers`` can be a list or dictionary of additional header values.
-4.  If none of that works, Flask will assume the return value is a
-    valid WSGI application and convert that into a response object.
+1.  올바른 타입의 response 객체가 view에서 반환됐으면 그대로
+    반환한다.
+2.  문자열이면 그 데이터와 기본 매개변수를도 response 객체를
+    만든다.
+3.  튜플이 반한되는 경우 튜플 안의 항목들이 추가 정보를 줄 수
+    있다. 그 튜플은 ``(response, status, headers)``,
+    ``(response, status)``, ``(response, headers)`` 중 한
+    형태여야 한다. ``status`` 값은 상태 코드를 바꾸게 되며
+    ``headers`` 는 추가 헤더 값들의 리스트나 딕셔너리일 수 있다.
+4.  어느 경우도 아니면 플라스크에서는 반환 값이 유효한 WSGI
+    응용이라고 가정하고 그걸 response 객체로 변환하게 된다.
 
-If you want to get hold of the resulting response object inside the view
-you can use the :func:`~flask.make_response` function.
+view 내에서 결과 response 객체를 건드리고 싶다면
+:func:`~flask.make_response` 함수를 쓰면 된다.
 
-Imagine you have a view like this::
+다음과 같은 view 함수가 있다고 하자. ::
 
     @app.errorhandler(404)
     def not_found(error):
         return render_template('error.html'), 404
 
-You just need to wrap the return expression with
-:func:`~flask.make_response` and get the response object to modify it, then
-return it::
+반환 식을 :func:`~flask.make_response` 로 감싸 주기만 하면
+된다. 그리고 response 객체를 얻어서 변경한 다음 반환한다. ::
 
     @app.errorhandler(404)
     def not_found(error):
@@ -712,24 +697,23 @@ return it::
 
 .. _sessions:
 
-Sessions
---------
+세션
+----
 
-In addition to the request object there is also a second object called
-:class:`~flask.session` which allows you to store information specific to a
-user from one request to the next.  This is implemented on top of cookies
-for you and signs the cookies cryptographically.  What this means is that
-the user could look at the contents of your cookie but not modify it,
-unless they know the secret key used for signing.
+request 오브젝트와 더불어 :class:`~flask.session` 이라는 두 번째
+객체가 있어서 사용자별 정보를 요청들에 걸쳐서 저장할 수 있다.
+세션은 쿠키 상에서 구현돼 있으며 쿠키에 암호학적 서명을 한다.
+즉 사용자가 쿠키의 내용물을 볼 수는 있지만 서명에 쓰인 비밀키를
+알고 있지 않는 한 변경할 수는 없다.
 
-In order to use sessions you have to set a secret key.  Here is how
-sessions work::
+세션을 쓰기 위해선 비밀키를 설정해야 한다. 세션은 다음과 같이
+사용한다. ::
 
     from flask import Flask, session, redirect, url_for, escape, request
 
     app = Flask(__name__)
 
-    # Set the secret key to some random bytes. Keep this really secret!
+    # 어떤 난수 바이트들로 비밀키를 설정. 진짜 비밀로 유지할 것!
     app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
     @app.route('/')
@@ -752,100 +736,98 @@ sessions work::
 
     @app.route('/logout')
     def logout():
-        # remove the username from the session if it's there
+        # 세션에 username이 있으면 제거
         session.pop('username', None)
         return redirect(url_for('index'))
 
-The :func:`~flask.escape` mentioned here does escaping for you if you are
-not using the template engine (as in this example).
+여기 등장하는 :func:`~flask.escape` 는 (이 예처럼) 템플릿을 쓰지
+않는 경우에 이스케이핑을 해 준다.
 
-.. admonition:: How to generate good secret keys
+.. admonition:: 좋은 비밀키 만드는 방법
 
-    A secret key should be as random as possible. Your operating system has
-    ways to generate pretty random data based on a cryptographic random
-    generator. Use the following command to quickly generate a value for
-    :attr:`Flask.secret_key` (or :data:`SECRET_KEY`)::
+    비밀키는 가급적 난수적이어야 한다. 운영 체제마다 암호학적 난수
+    생성기를 바탕으로 깔끔하게 난수 데이터를 생성하는 방식이 있다.
+    다음 명령으로 :attr:`Flask.secret_key`에 (또는 :data:`SECRET_KEY` 에)
+    쓸 값을 얼른 만들 수 있다. ::
 
         $ python -c 'import os; print(os.urandom(16))'
         b'_5#y2L"F4Q8z\n\xec]/'
 
-A note on cookie-based sessions: Flask will take the values you put into the
-session object and serialize them into a cookie.  If you are finding some
-values do not persist across requests, cookies are indeed enabled, and you are
-not getting a clear error message, check the size of the cookie in your page
-responses compared to the size supported by web browsers.
+쿠키 기반 세션 참고 사항: session 객체에 넣어 준 값들을 플라스크가
+쿠키로 직렬화 해 준다. 혹시 어떤 값이 요청을 거치면서 유지되지 않는
+걸 발견했는데 쿠키가 제대로 켜져 있고 확실한 오류 메시지를 받은 게
+없다면 페이지 응답의 쿠키 크기와 웹 브라우저에서 보낸 크기를
+비교해 보라.
 
-Besides the default client-side based sessions, if you want to handle
-sessions on the server-side instead, there are several
-Flask extensions that support this.
+기본 방식인 클라이언트 기반 세션 말고 서버 측에서 세션을 처리하고
+싶다면 그걸 지원하는 여러 플라스크 확장을 이용할 수 있다.
 
-Message Flashing
-----------------
+메시지 기입
+-----------
 
-Good applications and user interfaces are all about feedback.  If the user
-does not get enough feedback they will probably end up hating the
-application.  Flask provides a really simple way to give feedback to a
-user with the flashing system.  The flashing system basically makes it
-possible to record a message at the end of a request and access it on the next
-(and only the next) request.  This is usually combined with a layout
-template to expose the message.
+응용과 사용자 인터페이스가 좋다는 건 결국 피드백에 대한 것이다.
+충분한 피드백을 받지 못하면 사용자는 결국 그 응용을 싫어하게
+될 것이다. 플라스크에는 정말 간단히 사용자에게 피드백을 줄 수
+있는 기입 시스템(flashing system)이라는 게 있다. 기본적으로 기입
+시스템이 해 주는 건 어떤 요청 마지막에서 메시지를 기록하고 그걸
+다음 요청에서(만) 접근할 수 있게 하는 것이다. 일반적으로 레이아웃
+템플릿과 결합해서 메시지를 보이게 된다.
 
-To flash a message use the :func:`~flask.flash` method, to get hold of the
-messages you can use :func:`~flask.get_flashed_messages` which is also
-available in the templates.  Check out the :ref:`message-flashing-pattern`
-for a full example.
+메시지를 기입하려면 :func:`~flask.flash` 메소드를 쓰면 된다.
+메시지를 얻어 오려면 :func:`~flask.get_flashed_messages` 를 쓰면
+되고 템플릿에서도 사용 가능하다. :ref:`message-flashing-pattern`
+절에서 제대로 된 사용례를 볼 수 있다.
 
-Logging
--------
+로그
+----
 
 .. versionadded:: 0.3
 
-Sometimes you might be in a situation where you deal with data that
-should be correct, but actually is not.  For example you may have some client-side
-code that sends an HTTP request to the server but it's obviously
-malformed.  This might be caused by a user tampering with the data, or the
-client code failing.  Most of the time it's okay to reply with ``400 Bad
-Request`` in that situation, but sometimes that won't do and the code has
-to continue working.
+정확해야 하는데 실제로는 그렇지 않은 데이터를 다뤄야 하는 상황이
+때때로 있을 수도 있다. 예를 들어 어떤 클라이언트 측 코드에서 서버로
+HTTP 요청을 보내게 했는데 명백히 잘못된 형식일 수가 있다. 사용자가
+데이터를 조작해서일 수도 있겠고 클라이언트 코드가 오동작해서일 수도
+있을 것이다. 그런 경우에 대부분은 ``400 Bad Request`` 로 응답하면
+그만이지만 때로는 그렇게 해결할 수가 없고 코드가 계속 진행을 해야
+한다.
 
-You may still want to log that something fishy happened.  This is where
-loggers come in handy.  As of Flask 0.3 a logger is preconfigured for you
-to use.
+그럴 때에도 뭔가 수상한 일이 일어났다는 걸 기록으로 남기고 싶을 수
+있다. 이때 로거가 있으면 딱이다. 플라스크 0.3부터 로거가 미리 구성돼
+있어서 바로 이용할 수 있다.
 
-Here are some example log calls::
+다음은 몇 가지 예시 로그 호출이다. ::
 
     app.logger.debug('A value for debugging')
     app.logger.warning('A warning occurred (%d apples)', 42)
     app.logger.error('An error occurred')
 
-The attached :attr:`~flask.Flask.logger` is a standard logging
-:class:`~logging.Logger`, so head over to the official `logging
-documentation <https://docs.python.org/library/logging.html>`_ for more
-information.
+``app`` 에 붙어 있는 :attr:`~flask.Flask.logger` 는 표준 logging
+패키지의 :class:`~logging.Logger` 이므로 자세한 내용은
+`logging 문서 <http://docs.python.org/library/logging.html>`_ 를
+보면 된다.
 
-Read more on :ref:`application-errors`.
+:ref:`application-errors` 절로 이어진다.
 
-Hooking in WSGI Middlewares
----------------------------
+WSGI 미들웨어 후킹
+------------------
 
-If you want to add a WSGI middleware to your application you can wrap the
-internal WSGI application.  For example if you want to use one of the
-middlewares from the Werkzeug package to work around bugs in lighttpd, you
-can do it like this::
+응용에 WSGI 미들웨어를 추가하고 싶다면 그 내부 WSGI 응용을 감싸
+주면 된다. 예를 들어 lighttpd 버그를 우회하기 위해 Werkzeug
+패키지의 미들웨어 하나를 가져와 쓰고 싶다면 다음처럼 하면 된다. ::
 
     from werkzeug.contrib.fixers import LighttpdCGIRootFix
     app.wsgi_app = LighttpdCGIRootFix(app.wsgi_app)
 
-Using Flask Extensions
+플라스크 확장 사용하기
 ----------------------
 
-Extensions are packages that help you accomplish common tasks. For
-example, Flask-SQLAlchemy provides SQLAlchemy support that makes it simple
-and easy to use with Flask.
+확장이란 흔히 하는 작업들을 도와 주는 패키지들이다. 예를 들어
+Flask-SQLAlchemy 확장은 SQLAlchemy 지원을 제공해서 플라스크에서
+간편하고 쉽게 쓸 수 있게 해 준다.
 
-For more on Flask extensions, have a look at :ref:`extensions`.
+플라스크 확장에 대한 자세한 내용은 :ref:`extensions` 절을 보라.
 
-Deploying to a Web Server
--------------------------
+웹 서버로 배포하기
+------------------
 
-Ready to deploy your new Flask app? Go to :ref:`deployment`.
+새 플라스크 앱을 배포할 준비가 됐는가? :ref:`deployment` 절로 가자.
