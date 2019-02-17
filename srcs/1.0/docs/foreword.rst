@@ -1,57 +1,56 @@
-Foreword
-========
+머리말
+======
 
-Read this before you get started with Flask.  This hopefully answers some
-questions about the purpose and goals of the project, and when you
-should or should not be using it.
+플라스크를 쓰기 전에 읽어 볼 내용들이다. 프로젝트의 목적과 목표가 뭔지,
+그리고 어떨 때 사용하고 어떨 때 사용하지 말지에 대한 질문에 어느 정도
+답이 되기를 바란다.
 
-What does "micro" mean?
------------------------
-
-“Micro” does not mean that your whole web application has to fit into a single
-Python file (although it certainly can), nor does it mean that Flask is lacking
-in functionality. The "micro" in microframework means Flask aims to keep the
-core simple but extensible. Flask won't make many decisions for you, such as
-what database to use. Those decisions that it does make, such as what
-templating engine to use, are easy to change.  Everything else is up to you, so
-that Flask can be everything you need and nothing you don't.
-
-By default, Flask does not include a database abstraction layer, form
-validation or anything else where different libraries already exist that can
-handle that. Instead, Flask supports extensions to add such functionality to
-your application as if it was implemented in Flask itself. Numerous extensions
-provide database integration, form validation, upload handling, various open
-authentication technologies, and more. Flask may be "micro", but it's ready for
-production use on a variety of needs.
-
-Configuration and Conventions
------------------------------
-
-Flask has many configuration values, with sensible defaults, and a few
-conventions when getting started.  By convention, templates and static files are
-stored in subdirectories within the application's Python source tree, with the
-names :file:`templates` and :file:`static` respectively. While this can be changed, you
-usually don't have to, especially when getting started.
-
-Growing with Flask
+왜 "마이크로"인가?
 ------------------
 
-Once you have Flask up and running, you'll find a variety of extensions
-available in the community to integrate your project for production. The Flask
-core team reviews extensions and ensures approved extensions do not break with
-future releases.
+"마이크로"라고 해서 작성할 웹 응용이 파이썬 파일 하나에 들어가야 한다는
+뜻은 아니며 (물론 그럴 수는 있다) 플라스크에 기능이 부족하다는 뜻도
+아니다. 마이크로프레임워크(microframework)에서 "마이크로"의 의미는
+핵심 요소를 단순하지만 확장성 있게 유지하는 걸 플라스크에서 지향한다는
+것이다. 플라스크에서는 여러 가지를 (가령 어떤 데이터베이스를 쓸지를)
+대신 결정해 주지 않는다. 결정해 주는 것도 (가령 어떤 템플릿 엔진을
+쓸지를) 쉽게 바꿀 수 있다. 나머지는 모두 여러분에게 달려 있으며, 그래서
+플라스크는 원하는 무엇이든 될 수 있고 원치 않는 무엇도 되지 않는다.
 
-As your codebase grows, you are free to make the design decisions appropriate
-for your project.  Flask will continue to provide a very simple glue layer to
-the best that Python has to offer.  You can implement advanced patterns in
-SQLAlchemy or another database tool, introduce non-relational data persistence
-as appropriate, and take advantage of framework-agnostic tools built for WSGI,
-the Python web interface.
+기본적으로 플라스크에는 데이터베이스 추상화 계층, 폼 검증, 기타 그 동작을
+해 주는 다른 라이브러리가 이미 있는 부분들이 포함돼 있지 않다. 대신
+플라스크가 지원하는 확장들을 통해 마치 플라스크 자체에 구현돼 있는 것처럼
+그런 기능을 응용에 추가할 수 있다. 많은 확장들이 있어서 데이터베이스
+통합, 폼 검증, 업로드 처리, 여러 개방형 인증 기술 등을 제공한다.
+플라스크는 "마이크로"일 수도 있지만 다양한 용도에 실제로 쓰일 수 있는
+준비가 돼 있다.
 
-Flask includes many hooks to customize its behavior. Should you need more
-customization, the Flask class is built for subclassing. If you are interested
-in that, check out the :ref:`becomingbig` chapter.  If you are curious about
-the Flask design principles, head over to the section about :ref:`design`.
+설정과 관행
+-----------
 
-Continue to :ref:`installation`, the :ref:`quickstart`, or the
-:ref:`advanced_foreword`.
+플라스크에는 여러 설정 값들과 적당한 기본값이 있고 익숙해져야 할 몇 가지
+관행이 있다. 관행상 템플릿과 정적 파일은 각각 응용의 파이썬 소스 트리의
+서브디렉터리 :file:`templates` 및 :file:`static` 안에 있다. 다른 디렉터리로
+바꿀 수 있지만 일반적으로 그럴 필요가 없으며 처음 써 볼 때는 더더욱 그렇다.
+
+플라스크와 한 발 더
+-------------------
+
+플라스크로 작업해서 돌리고 난 다음에는 실사용 환경에 프로젝트를 통합하기
+위한 다양한 확장들을 커뮤니티에서 찾을 수 있을 것이다. 플라스크 코어
+팀에서는 확장들을 검토해서 공인된 확장들은 향후 릴리스에서도 동작하도록
+보장한다.
+
+코드베이스가 커짐에 따라 프로젝트에 맞는 설계적 판단을 자유롭게 내릴
+수 있다. 플라스크는 파이썬에서 해야 할 최선에 따라 아주 단순한 접착 층을
+계속 제공할 것이다. SQLAlchemy나 다른 데이터베이스 도구로 고급 패턴을
+구현하거나 관계형이 아닌 데이터 저장소를 적절히 도입하거나 파이썬 웹
+인터페이스 WSGI를 위해 제작된 프레임워크 중립적 도구들을 이용할 수 있다.
+
+플라스크에는 동작 방식을 바꿀 수 있는 여러 가지 훅이 있다. 그 이상으로
+바꿔야 한다면 Flask 클래스의 서브클래스를 만들면 된다. 그쪽에 관심이
+있다면 :ref:`becomingbig` 장을 보면 된다. 플라스크 설계 원칙이 궁금하다면
+:ref:`design` 절로 들어가면 된다.
+
+다음으로 :ref:`installation`, :ref:`quickstart`, :ref:`advanced_foreword` 중
+하나로 가면 된다.
