@@ -1,29 +1,27 @@
 .. _installation:
 
-Installation
-============
+설치
+====
 
-Python Version
---------------
+파이썬 버전
+-----------
 
-We recommend using the latest version of Python 3. Flask supports Python 3.4
-and newer, Python 2.7, and PyPy.
+파이썬 3 최신 버전 사용을 권한다. 플라스크는 파이썬 3.4 및 이후 버전,
+파이썬 2.7, 그리고 PyPy를 지원한다.
 
-Dependencies
-------------
+의존하는 패키지
+---------------
 
-These distributions will be installed automatically when installing Flask.
+플라스크를 설치할 때 다음 패키지들이 자동으로 설치된다.
 
-* `Werkzeug`_ implements WSGI, the standard Python interface between
-  applications and servers.
-* `Jinja`_ is a template language that renders the pages your application
-  serves.
-* `MarkupSafe`_ comes with Jinja. It escapes untrusted input when rendering
-  templates to avoid injection attacks.
-* `ItsDangerous`_ securely signs data to ensure its integrity. This is used
-  to protect Flask's session cookie.
-* `Click`_ is a framework for writing command line applications. It provides
-  the ``flask`` command and allows adding custom management commands.
+* `Werkzeug`_ 응용 서버 간 인터페이스 파이썬 표준인 WSGI를 구현.
+* `Jinja`_ 응용에서 내놓는 페이지를 생성하는 템플릿 언어
+* `MarkupSafe`_ Jinja에 딸려 있다.. 템플릿을 페이지로 옮길 때
+  입력을 이스케이프 해서 삽입 공격을 막는다.
+* `ItsDangerous`_ 데이터에 안전한 서명을 해서 무결성을 보장한다.
+  플라스크의 세션 쿠키를 보호하는 데 쓴다.
+* `Click`_ 명령행 응용 작성을 위한 프레임워크. ``flask`` 명령이
+  이걸로 만들어졌으며 다른 관리 명령들을 추가할 수 있다.
 
 .. _Werkzeug: http://werkzeug.pocoo.org/
 .. _Jinja: http://jinja.pocoo.org/
@@ -31,53 +29,51 @@ These distributions will be installed automatically when installing Flask.
 .. _ItsDangerous: https://pythonhosted.org/itsdangerous/
 .. _Click: http://click.pocoo.org/
 
-Optional dependencies
-~~~~~~~~~~~~~~~~~~~~~
+기타 의존 패키지
+~~~~~~~~~~~~~~~~
 
-These distributions will not be installed automatically. Flask will detect and
-use them if you install them.
+다음 패키지들은 자동으로 설치되지 않는다. 설치돼 있으면 플라스크에서
+탐지해서 사용한다.
 
-* `Blinker`_ provides support for :ref:`signals`.
-* `SimpleJSON`_ is a fast JSON implementation that is compatible with
-  Python's ``json`` module. It is preferred for JSON operations if it is
-  installed.
-* `python-dotenv`_ enables support for :ref:`dotenv` when running ``flask``
-  commands.
-* `Watchdog`_ provides a faster, more efficient reloader for the development
-  server.
+* `Blinker`_ :ref:`signals` 기능 제공.
+* `SimpleJSON`_ 파이썬 ``json`` 모듈과 호환되는 빠른 JSON 구현체.
+  설치돼 있으면 JSON 처리에 사용한다.
+* `python-dotenv`_ ``flask`` 명령 실행 시 :ref:`dotenv` 지원을
+  가능하게 해 줌.
+* `Watchdog`_ 개발용 서버에 빠르고 효율적인 재적재 기능 제공.
 
 .. _Blinker: https://pythonhosted.org/blinker/
 .. _SimpleJSON: https://simplejson.readthedocs.io/
 .. _python-dotenv: https://github.com/theskumar/python-dotenv#readme
 .. _watchdog: https://pythonhosted.org/watchdog/
 
-Virtual environments
---------------------
+가상 환경
+---------
 
-Use a virtual environment to manage the dependencies for your project, both in
-development and in production.
+개발 및 도입 시에 가상 환경을 사용해 프로젝트 의존성을 관리하자.
 
-What problem does a virtual environment solve? The more Python projects you
-have, the more likely it is that you need to work with different versions of
-Python libraries, or even Python itself. Newer versions of libraries for one
-project can break compatibility in another project.
+가상 환경이 해결해 주는 문제가 뭘까? 파이썬 프로젝트가 많아질수록
+여러 버전의 파이썬 라이브러리들을, 또 때로는 여러 버전의 파이썬을
+다뤄야 할 가능성이 높다. 그런데 어떤 프로젝트에 쓸 라이브러리
+최신 버전 때문에 다른 프로젝트에서 호환성 문제가 생길 수 있다.
 
-Virtual environments are independent groups of Python libraries, one for each
-project. Packages installed for one project will not affect other projects or
-the operating system's packages.
+가상 환경은 각 프로젝트마다 하나씩 있는 독립적인 파이썬 라이브러리
+모음이다. 어떤 프로젝트를 위해 패키지를 설치해도 다른 프로젝트나
+운영 체제 패키지에 영향을 주지 않게 된다.
 
-Python 3 comes bundled with the :mod:`venv` module to create virtual
-environments. If you're using a modern version of Python, you can continue on
-to the next section.
+파이썬 3에는 가상 환경을 만들기 위한 :mod:`venv` 모듈이 기본으로
+딸려 있다. 따라서 파이썬 요새 버전을 쓰고 있다면 다음 절을 계속
+읽어 나가면 된다.
 
-If you're using Python 2, see :ref:`install-install-virtualenv` first.
+파이썬 2를 쓰고 있다면 먼저 :ref:`install-install-virtualenv` 절을
+보자.
 
 .. _install-create-env:
 
-Create an environment
-~~~~~~~~~~~~~~~~~~~~~
+환경 만들기
+~~~~~~~~~~~
 
-Create a project folder and a :file:`venv` folder within:
+프로젝트 폴더를 만들고 그 안에 :file:`venv` 폴더를 만든다.
 
 .. code-block:: sh
 
@@ -85,20 +81,20 @@ Create a project folder and a :file:`venv` folder within:
     cd myproject
     python3 -m venv venv
 
-On Windows:
+윈도우:
 
 .. code-block:: bat
 
     py -3 -m venv venv
 
-If you needed to install virtualenv because you are on an older version of
-Python, use the following command instead:
+파이썬 구식 버전을 사용 중이라 virtualenv를 설치해야 했던 경우라면
+대신 다음 명령을 써야 한다.
 
 .. code-block:: sh
 
     virtualenv venv
 
-On Windows:
+윈도우:
 
 .. code-block:: bat
 
@@ -106,37 +102,37 @@ On Windows:
 
 .. _install-activate-env:
 
-Activate the environment
-~~~~~~~~~~~~~~~~~~~~~~~~
+환경 활성화하기
+~~~~~~~~~~~~~~~
 
-Before you work on your project, activate the corresponding environment:
+프로젝트에서 작업을 하기 전에 해당 환경을 활성화하자.
 
 .. code-block:: sh
 
     . venv/bin/activate
 
-On Windows:
+윈도우:
 
 .. code-block:: bat
 
     venv\Scripts\activate
 
-Your shell prompt will change to show the name of the activated environment.
+셸 프롬프트에 활성화된 환경 이름이 나오게 된다.
 
-Install Flask
+플라스크 설치
 -------------
 
-Within the activated environment, use the following command to install Flask:
+활성 환경 내에서 다음 명령으로 플라스크를 설치하자.
 
 .. code-block:: sh
 
     pip install Flask
 
-Living on the edge
-~~~~~~~~~~~~~~~~~~
+모험하며 살기
+~~~~~~~~~~~~~
 
-If you want to work with the latest Flask code before it's released, install or
-update the code from the master branch:
+출시되기도 전의 최신 플라스크 코드를 쓰고 싶다면 마스터 브랜치 코드로
+설치 및 업데이트 하면 된다.
 
 .. code-block:: sh
 
@@ -144,13 +140,13 @@ update the code from the master branch:
 
 .. _install-install-virtualenv:
 
-Install virtualenv
-------------------
+virtualenv 설치
+---------------
 
-If you are using Python 2, the venv module is not available. Instead,
-install `virtualenv`_.
+파이썬 2를 쓰고 있다면 venv 모듈이 없을 것이다. 대신 `virtualenv`_
+모듈을 설치하자.
 
-On Linux, virtualenv is provided by your package manager:
+리눅스에서는 패키지 관리자를 통해 virtualenv를 설치할 수 있다.
 
 .. code-block:: sh
 
@@ -163,21 +159,22 @@ On Linux, virtualenv is provided by your package manager:
     # Arch
     sudo pacman -S python-virtualenv
 
-If you are on Mac OS X or Windows, download `get-pip.py`_, then:
+맥 OS X나 윈도우라면 `get-pip.py`_ 파일을 내려받아서 다음을
+실행하자.
 
 .. code-block:: sh
 
     sudo python2 Downloads/get-pip.py
     sudo python2 -m pip install virtualenv
 
-On Windows, as an administrator:
+윈도우면 관리자 권한으로 다음을 실행하자.
 
 .. code-block:: bat
 
     \Python27\python.exe Downloads\get-pip.py
     \Python27\python.exe -m pip install virtualenv
 
-Now you can continue to :ref:`install-create-env`.
+이제 :ref:`install-create-env` 절을 따라가면 된다.
 
 .. _virtualenv: https://virtualenv.pypa.io/
 .. _get-pip.py: https://bootstrap.pypa.io/get-pip.py
