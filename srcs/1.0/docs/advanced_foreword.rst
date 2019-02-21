@@ -1,47 +1,47 @@
 .. _advanced_foreword:
 
-Foreword for Experienced Programmers
-====================================
+익숙한 프로그래머들을 위한 머리말
+=================================
 
-Thread-Locals in Flask
+플라스크의 스레드 로컬
 ----------------------
 
-One of the design decisions in Flask was that simple tasks should be simple;
-they should not take a lot of code and yet they should not limit you. Because
-of that, Flask has a few design choices that some people might find surprising or
-unorthodox. For example, Flask uses thread-local objects internally so that you
-don’t have to pass objects around from function to function within a request in
-order to stay threadsafe. This approach is convenient, but requires a valid
-request context for dependency injection or when attempting to reuse code which
-uses a value pegged to the request.  The Flask project is honest about
-thread-locals, does not hide them, and calls out in the code and documentation
-where they are used.
+플라스크 설계 시 했던 판단 중에 단순한 작업은 단순해야 한다는 게 있었다.
+즉 많은 코드가 필요하지 않아야 하고 그러면서도 가능성을 제한해서는
+안 된다. 그래서 플라스크에는 어떤 사람들은 보고 놀라거나 비정통적이라
+여길 수도 있을 설계적 선택들이 있다. 예를 들어 플라스크에서는 내부적으로
+스레드 로컬 객체를 사용하고, 그래서 어떤 요청을 처리하면서 스레드
+안전성을 위해 객체들을 이 함수에서 저 함수로 전달하지 않아도 된다. 이
+방식은 분명 편리하지만 의존성 주입을 위해선, 또는 요청에 물려 있는 값을
+쓰는 코드를 재사용하려 할 때는 유효한 요청 문맥이 필요하다. 플라스크
+프로젝트는 스레드 로컬을 솔직하게 드러내며 쓰이는 곳을 코드 및 문서에서
+확실하게 밝힌다.
 
-Develop for the Web with Caution
---------------------------------
+웹 개발을 할 때는 조심조심
+--------------------------
 
-Always keep security in mind when building web applications.
+웹 응용을 만들 때는 항상 보안을 염두에 두어야 한다.
 
-If you write a web application, you are probably allowing users to register
-and leave their data on your server.  The users are entrusting you with data.
-And even if you are the only user that might leave data in your application,
-you still want that data to be stored securely.
+웹 응용을 작성하게 되면 아마 사용자가 회원 등록을 하고 자기 데이터를
+서버에 두도록 할 것이다. 사용자가 자기 데이터를 믿고 맡기는 것이다.
+설명 응용에 데이터를 남길 사람이 작성자뿐인 경우라 하더라도 자기
+데이터가 안전하게 보관되길 바랄 것이다.
 
-Unfortunately, there are many ways the security of a web application can be
-compromised.  Flask protects you against one of the most common security
-problems of modern web applications: cross-site scripting (XSS).  Unless you
-deliberately mark insecure HTML as secure, Flask and the underlying Jinja2
-template engine have you covered.  But there are many more ways to cause
-security problems.
+안타깝게도 다양한 방식으로 웹 응용 보안에 문제가 생길 수 있다.
+플라스크는 현대 웹 응용에서 아주 흔한 보안 문제인 사이트 간
+스크립팅(XSS)을 막아 준다. 안전하지 않은 HTML을 의도적으로 안전한
+것으로 표시하지 않는 한 플라스크와 그 아래 Jinja2 템플릿 엔진이
+여러분을 보호해 준다. 하지만 보안 문제가 생길 수 있는 방법은 많다는
+걸 잊지 말아야 한다.
 
-The documentation will warn you about aspects of web development that require
-attention to security.  Some of these security concerns are far more complex
-than one might think, and we all sometimes underestimate the likelihood that a
-vulnerability will be exploited - until a clever attacker figures out a way to
-exploit our applications.  And don't think that your application is not
-important enough to attract an attacker.  Depending on the kind of attack,
-chances are that automated bots are probing for ways to fill your database with
-spam, links to malicious software, and the like.
+이 문서에서는 보안에 관심을 기울여야 하는 웹 개발 측면들에 대해 주의를
+줄 것이다. 그 보안 사안들 중 일부는 생각보다 훨씬 복잡하며 우리 모두는
+때때로 취약성이 악용될 가능성을 과소평가한다. 똑똑한 어느 공격자가
+여러분의 응용을 공격할 방법을 알아내기 전까진 말이다. 또 여러분의 응용이
+공격자가 관심을 끌 정도로 중요하진 않다는 식으로 생각해선 안 된다. 공격
+종류에 따라선 자동 봇이 돌면서 스팸이나 악성 소프트웨어 링크 등으로
+데이터베이스를 채울 방법을 찾아낼 가능성도 있다.
 
-Flask is no different from any other framework in that you the developer must
-build with caution, watching for exploits when building to your requirements.
+개발자인 여러분이 조심하며 만들어야 하고 요구 사항에 따라 만들어 나갈
+때 취약성에 신경을 써야 한다는 점에서 플라스크는 다른 여느 프레임워크와
+다르지 않다.
