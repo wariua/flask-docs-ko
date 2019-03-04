@@ -1,32 +1,29 @@
 .. currentmodule:: flask
 
-Application Setup
-=================
+응용 준비
+=========
 
-A Flask application is an instance of the :class:`Flask` class.
-Everything about the application, such as configuration and URLs, will
-be registered with this class.
+플라스크 응용은 :class:`Flask` 클래스의 인스턴스이다. 설정이나
+URL 같은 응용에 대한 모든 것들이 이 클래스에 기록된다.
 
-The most straightforward way to create a Flask application is to create
-a global :class:`Flask` instance directly at the top of your code, like
-how the "Hello, World!" example did on the previous page. While this is
-simple and useful in some cases, it can cause some tricky issues as the
-project grows.
+플라스크 응용을 만드는 가장 단순한 방법은 앞서 "Hello, World!"
+예시에서 했던 것처럼 코드 상단에서 전역 :class:`Flask` 인스턴스를
+만드는 것이다. 이 방식은 간편하고 일부 경우에 유용하기도 하지만
+프로젝트가 커지면서 좀 까다로운 문제들을 일으킬 수 있다.
 
-Instead of creating a :class:`Flask` instance globally, you will create
-it inside a function. This function is known as the *application
-factory*. Any configuration, registration, and other setup the
-application needs will happen inside the function, then the application
-will be returned.
+전역으로 :class:`Flask` 인스턴스를 만드는 대신 어떤 함수 안에서
+만들게 된다. 그 함수를 *응용 팩토리* 라고 한다. 설정이나 등록,
+기타 응용에서 필요한 준비 작업들이 그 함수 안에서 이뤄지고
+마지막으로 응용이 반환된다.
 
 
-The Application Factory
------------------------
+응용 팩토리
+-----------
 
-It's time to start coding! Create the ``flaskr`` directory and add the
-``__init__.py`` file. The ``__init__.py`` serves double duty: it will
-contain the application factory, and it tells Python that the ``flaskr``
-directory should be treated as a package.
+코딩 할 시간이다! ``flaskr`` 디렉터리를 만들고 ``__init__.py``
+파일을 추가하자. ``__init__.py`` 에는 두 가지 역할이 있는데,
+응용 팩토리가 들어가게 되며 파이썬에서 ``flaskr`` 디렉터리를
+패키지로 다루도록 한다.
 
 .. code-block:: none
 
@@ -41,7 +38,7 @@ directory should be treated as a package.
 
 
     def create_app(test_config=None):
-        # create and configure the app
+        # 앱 생성 및 설정
         app = Flask(__name__, instance_relative_config=True)
         app.config.from_mapping(
             SECRET_KEY='dev',
@@ -49,92 +46,85 @@ directory should be treated as a package.
         )
 
         if test_config is None:
-            # load the instance config, if it exists, when not testing
+            # 테스트가 아닐 때 인스턴스 설정이 있으면 적재
             app.config.from_pyfile('config.py', silent=True)
         else:
-            # load the test config if passed in
+            # 테스트 설정을 받았으면 적재
             app.config.from_mapping(test_config)
 
-        # ensure the instance folder exists
+        # 인스턴스 폴더가 존재해야 함
         try:
             os.makedirs(app.instance_path)
         except OSError:
             pass
 
-        # a simple page that says hello
+        # 인사를 하는 간단한 페이지
         @app.route('/hello')
         def hello():
             return 'Hello, World!'
 
         return app
 
-``create_app`` is the application factory function. You'll add to it
-later in the tutorial, but it already does a lot.
+``create_app`` 이 응용 팩토리 함수이다. 길라잡이 이후 부분에서
+여기 뭔가를 또 추가하겠지만 지금도 충분히 많은 일을 하고 있다.
 
-#.  ``app = Flask(__name__, instance_relative_config=True)`` creates the
-    :class:`Flask` instance.
+#.  ``app = Flask(__name__, instance_relative_config=True)`` 로
+    :class:`Flask` 인스턴스를 만든다.
 
-    *   ``__name__`` is the name of the current Python module. The app
-        needs to know where it's located to set up some paths, and
-        ``__name__`` is a convenient way to tell it that.
+    *   ``__name__`` 은 현재 파이썬 모듈의 이름이다. 일부
+        경로들을 만들기 위해 앱에서 자기 위치를 알 필요가
+        있는데 ``__name__`` 은 그걸 알려 주는 편리한 방법이다.
 
-    *   ``instance_relative_config=True`` tells the app that
-        configuration files are relative to the
-        :ref:`instance folder <instance-folders>`. The instance folder
-        is located outside the ``flaskr`` package and can hold local
-        data that shouldn't be committed to version control, such as
-        configuration secrets and the database file.
+    *   ``instance_relative_config=True`` 는 설정 파일이
+        :ref:`인스턴스 폴더 <instance-folders>` 기준 상대 경로임을
+        앱에게 알려 준다. 인스턴스 폴더는 ``flaskr`` 패키지 밖에
+        위치해 있으며 비밀값이나 데이터베이스 파일 설정처럼
+        버전 관리로 들어가선 안 되는 로컬 데이터를 담을 수 있다.
 
-#.  :meth:`app.config.from_mapping() <Config.from_mapping>` sets
-    some default configuration that the app will use:
+#.  :meth:`app.config.from_mapping() <Config.from_mapping>` 으로
+    앱에서 사용할 몇 가지 기본 설정을 준다.
 
-    *   :data:`SECRET_KEY` is used by Flask and extensions to keep data
-        safe. It's set to ``'dev'`` to provide a convenient value
-        during development, but it should be overridden with a random
-        value when deploying.
+    *   :data:`SECRET_KEY` 를 사용해 플라스크와 확장들에서 데이터를
+        안전하게 보관한다. 개발 중에는 간편한 값인 ``'dev'`` 로
+        설정하지만 도입 시에는 난수 값으로 바꿔야 한다.
 
-    *   ``DATABASE`` is the path where the SQLite database file will be
-        saved. It's under
-        :attr:`app.instance_path <Flask.instance_path>`, which is the
-        path that Flask has chosen for the instance folder. You'll learn
-        more about the database in the next section.
+    *   ``DATABASE`` 는 SQLite 데이터 파일이 저장될 경로이다.
+        플라스크에서 인스턴스 폴더로 선택한 경로인
+        :attr:`app.instance_path <Flask.instance_path>` 아래에
+        있게 된다. 다음 절에서 데이터베이스에 대해 배우게 된다.
 
-#.  :meth:`app.config.from_pyfile() <Config.from_pyfile>` overrides
-    the default configuration with values taken from the ``config.py``
-    file in the instance folder if it exists. For example, when
-    deploying, this can be used to set a real ``SECRET_KEY``.
+#.  :meth:`app.config.from_pyfile() <Config.from_pyfile>` 로
+    인스턴스 폴더에 ``config.py`` 파일이 있으면 거기서 가져온
+    값들로 기본 설정을 바꾼다. 예를 들어 도입 시에 이를 이용해
+    진짜 ``SECRET_KEY`` 를 설정할 수 있다.
 
-    *   ``test_config`` can also be passed to the factory, and will be
-        used instead of the instance configuration. This is so the tests
-        you'll write later in the tutorial can be configured
-        independently of any development values you have configured.
+    *   팩토리로 ``test_config`` 를 줘서 인스턴스 설정 대신
+        쓰이게 할 수 있다. 길라잡이 이후에서 작성하게 될
+        테스트에 이미 설정돼 있는 개발용 값들과는 독립적인
+        설정을 주기 위한 것이다.
 
-#.  :func:`os.makedirs` ensures that
-    :attr:`app.instance_path <Flask.instance_path>` exists. Flask
-    doesn't create the instance folder automatically, but it needs to be
-    created because your project will create the SQLite database file
-    there.
+#.  :func:`os.makedirs` 로 :attr:`app.instance_path
+    <Flask.instance_path>` 가 꼭 존재하게 한다. 플라스크에서
+    인스턴스 폴더를 자동으로 만들어 주지 않으므로 직접 만들어야
+    한다. 거기에 SQLite 데이터베이스 파일을 만들게 된다.
 
-#.  :meth:`@app.route() <Flask.route>` creates a simple route so you can
-    see the application working before getting into the rest of the
-    tutorial. It creates a connection between the URL ``/hello`` and a
-    function that returns a response, the string ``'Hello, World!'`` in
-    this case.
+#.  :meth:`@app.route() <Flask.route>` 로 길라잡이 나머지 부분으로
+    들어가기 전에 응용이 동작하는지 확인하기 위한 간단한 루트를
+    만든다. 이 경우는 URL ``/hello`` 와 응답으로 문자열
+    ``'Hello, World!'`` 를 반환하는 함수를 연결한다.
 
 
-Run The Application
--------------------
+응용 실행하기
+-------------
 
-Now you can run your application using the ``flask`` command. From the
-terminal, tell Flask where to find your application, then run it in
-development mode.
+이제 ``flask`` 명령으로 응용을 실행할 수 있다. 터미널에서 응용이
+어디 있는지 플라스크에게 알려 주고서 개발 모드로 실행해 보자.
 
-Development mode shows an interactive debugger whenever a page raises an
-exception, and restarts the server whenever you make changes to the
-code. You can leave it running and just reload the browser page as you
-follow the tutorial.
+개발 모드에서는 페이지에서 예외를 던질 때마다 대화형 디버거가
+나타나고 코드를 변경할 때마다 서버가 재시작된다. 계속 돌게 두고서
+길라잡이를 따라가며 브라우저 페이지만 새로고침 하면 된다.
 
-For Linux and Mac:
+리눅스 및 맥:
 
 .. code-block:: none
 
@@ -142,7 +132,7 @@ For Linux and Mac:
     export FLASK_ENV=development
     flask run
 
-For Windows cmd, use ``set`` instead of ``export``:
+윈도우 cmd, ``export`` 대신 ``set`` 사용:
 
 .. code-block:: none
 
@@ -150,7 +140,7 @@ For Windows cmd, use ``set`` instead of ``export``:
     set FLASK_ENV=development
     flask run
 
-For Windows PowerShell, use ``$env:`` instead of ``export``:
+윈도우 파워셸, ``export`` 대신 ``$env:`` 사용:
 
 .. code-block:: none
 
@@ -158,7 +148,7 @@ For Windows PowerShell, use ``$env:`` instead of ``export``:
     $env:FLASK_ENV = "development"
     flask run
 
-You'll see output similar to this:
+다음과 비슷한 출력을 보게 된다.
 
 .. code-block:: none
 
@@ -170,8 +160,8 @@ You'll see output similar to this:
      * Debugger is active!
      * Debugger PIN: 855-212-761
 
-Visit http://127.0.0.1:5000/hello in a browser and you should see the
-"Hello, World!" message. Congratulations, you're now running your Flask
-web application!
+브라우저에서 http://127.0.0.1:5000/hello 를 열면 "Hello, World!"
+메시지를 보게 된다. 축하한다! 작성한 플라스크 웹 응용이 지금 돌고
+있는 거다.
 
-Continue to :doc:`database`.
+:doc:`database` 절로 이어진다.
