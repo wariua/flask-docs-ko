@@ -1,26 +1,27 @@
-Static Files
-============
+정적 파일
+=========
 
-The authentication views and templates work, but they look very plain
-right now. Some `CSS`_ can be added to add style to the HTML layout you
-constructed. The style won't change, so it's a *static* file rather than
-a template.
+인증 뷰와 템플릿이 이제 동작하긴 하지만 아주 밋밋해 보인다.
+작성한 HTML 구조에 `CSS`_ 를 좀 더해서 스타일을 줄 수 있다.
+스타일은 내용이 바뀌지 않으며, 그래서 템플릿이 아니라
+*정적* 파일이다.
 
-Flask automatically adds a ``static`` view that takes a path relative
-to the ``flaskr/static`` directory and serves it. The ``base.html``
-template already has a link to the ``style.css`` file:
+플라스크에는 자동으로 추가되는 ``static`` 이라는 뷰가 있어서
+``flaskr/static`` 디렉터리를 기준으로 한 경로를 받아서 파일을
+내놓는다. ``base.html`` 템플릿에는 이미 ``style.css`` 파일
+링크가 있다.
 
 .. code-block:: html+jinja
 
     {{ url_for('static', filename='style.css') }}
 
-Besides CSS, other types of static files might be files with JavaScript
-functions, or a logo image. They are all placed under the
-``flaskr/static`` directory and referenced with
-``url_for('static', filename='...')``.
+CSS 말고 다른 종류의 정적 파일로 자바스크립트 함수, 로고
+이미지 등이 있을 수 있다. 모두 ``flaskr/static`` 안에
+집어넣고 ``url_for('static', filename='...')`` 이라고
+참조한다.
 
-This tutorial isn't focused on how to write CSS, so you can just copy
-the following into the ``flaskr/static/style.css`` file:
+이 길라잡이에서 CSS 작성 방법을 다룰 건 아니므로 그냥 다음
+내용을 ``flaskr/static/style.css`` 파일로 복사하면 된다.
 
 .. code-block:: css
     :caption: ``flaskr/static/style.css``
@@ -52,21 +53,21 @@ the following into the ``flaskr/static/style.css`` file:
     input.danger { color: #cc2f2e; }
     input[type=submit] { align-self: start; min-width: 10em; }
 
-You can find a less compact version of ``style.css`` in the
-:gh:`example code <examples/tutorial/flaskr/static/style.css>`.
+:gh:`예시 코드 <examples/tutorial/flaskr/static/style.css>` 에서
+여백이 좀 있는 버전을 볼 수 있다.
 
-Go to http://127.0.0.1:5000/auth/login and the page should look like the
-screenshot below.
+http://127.0.0.1:5000/auth/login 으로 가 보면 페이지가 아래
+스크린샷처럼 보일 것이다.
 
 .. image:: flaskr_login.png
     :align: center
     :class: screenshot
     :alt: screenshot of login page
 
-You can read more about CSS from `Mozilla's documentation <CSS_>`_. If
-you change a static file, refresh the browser page. If the change
-doesn't show up, try clearing your browser's cache.
+CSS에 대해선 `모질라의 문서 <CSS_>`_ 에서 더 자세한 내용을
+볼 수 있다. 정적 파일을 바꾸면 브라우저 페이지를 새로 고쳐야
+한다. 바뀐 내용이 나오지 않으면 브라우저의 캐시를 비워 보자.
 
 .. _CSS: https://developer.mozilla.org/docs/Web/CSS
 
-Continue to :doc:`blog`.
+:doc:`blog` 절로 이어진다.
