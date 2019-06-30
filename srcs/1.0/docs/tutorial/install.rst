@@ -1,35 +1,36 @@
-Make the Project Installable
-============================
+설치 가능하게 만들기
+====================
 
-Making your project installable means that you can build a
-*distribution* file and install that in another environment, just like
-you installed Flask in your project's environment. This makes deploying
-your project the same as installing any other library, so you're using
-all the standard Python tools to manage everything.
+프로젝트를 설치 가능하게 만든다는 건 *배포* 파일을 빌드 해서
+그걸 다른 환경에 설치할 수 있다는 뜻이다. 지금 환경에
+플라스크를 설치했던 것처럼 말이다. 그러면 지금 만드는
+프로젝트가 도입되는 과정이 여느 라이브러리 설치와 비슷하게
+되고, 그래서 표준 파이썬 도구들로 모든 걸 관리할 수 있게 된다.
 
-Installing also comes with other benefits that might not be obvious from
-the tutorial or as a new Python user, including:
+이 길라잡이를 통해선, 또는 파이썬을 처음 써보는 경우라면
+바로 생각하지 못할 수도 있겠지만 설치 방식에는 다른 이점들도
+있다.
 
-*   Currently, Python and Flask understand how to use the ``flaskr``
-    package only because you're running from your project's directory.
-    Installing means you can import it no matter where you run from.
+*   현재 파이썬과 플라스크에서 ``flaskr`` 패키지를 이용할 수
+    있는 건 프로젝트의 디렉터리에서 실행하고 있기 때문이다.
+    패키지를 설치하면 어디서 실행하든 임포트 할 수 있다.
 
-*   You can manage your project's dependencies just like other packages
-    do, so ``pip install yourproject.whl`` installs them.
+*   다른 패키지들과 마찬가지로 프로젝트의 의존성을 관리할 수
+    있다. 그래서 ``pip install yourproject.whl``\이라고 하면
+    필요한 다른 패키지들이 설치된다.
 
-*   Test tools can isolate your test environment from your development
-    environment.
+*   테스트 도구들에서 테스트 환경을 개발 환경과 격리시킬
+    수 있다.
 
 .. note::
-    This is being introduced late in the tutorial, but in your future
-    projects you should always start with this.
+    길라잡이 후반에서야 이 내용을 소개하고 있지만 향후
+    프로젝트에서는 항상 이 작업부터 시작해야 한다.
 
 
-Describe the Project
---------------------
+프로젝트 기술하기
+-----------------
 
-The ``setup.py`` file describes your project and the files that belong
-to it.
+``setup.py`` 파일이 프로젝트와 거기 속한 파일들을 기술한다.
 
 .. code-block:: python
     :caption: ``setup.py``
@@ -48,12 +49,13 @@ to it.
     )
 
 
-``packages`` tells Python what package directories (and the Python files
-they contain) to include. ``find_packages()`` finds these directories
-automatically so you don't have to type them out. To include other
-files, such as the static and templates directories,
-``include_package_data`` is set. Python needs another file named
-``MANIFEST.in`` to tell what this other data is.
+``packages`` 는 포함시킬 디렉터리를 (그리고 그 안의 파이썬
+파일들을) 파이썬에게 알려 준다. ``find_packages()``\가 자동으로
+디렉터리를 찾아 주므로 직접 입력해 줄 필요가 없다. static 및
+templates 디렉터리 같은 기타 파일들을 포함시키기 위해
+``include_package_data``\를 True로 설정한다. 그 기타 데이터가
+뭔지 파이썬에서 알려면 ``MANIFEST.in``\이라는 또 다른 파일이
+필요하다.
 
 .. code-block:: none
     :caption: ``MANIFEST.in``
@@ -63,31 +65,31 @@ files, such as the static and templates directories,
     graft flaskr/templates
     global-exclude *.pyc
 
-This tells Python to copy everything in the ``static`` and ``templates``
-directories, and the ``schema.sql`` file, but to exclude all bytecode
-files.
+``static`` 및 ``templates`` 디렉터리 안의 모든 내용물과
+``schema.sql`` 파일을 복사하되 바이트코드 파일들은 모두
+제외하게 한다.
 
-See the `official packaging guide`_ for another explanation of the files
-and options used.
+사용 파일 및 옵션에 대한 추가 설명은 `공식 패키징 안내서`_\를
+보라.
 
-.. _official packaging guide: https://packaging.python.org/tutorials/distributing-packages/
+.. _공식 패키징 안내서: https://packaging.python.org/tutorials/distributing-packages/
 
 
-Install the Project
--------------------
+프로젝트 설치하기
+-----------------
 
-Use ``pip`` to install your project in the virtual environment.
+``pip``\를 써서 프로젝트를 가상 환경에 설치하자.
 
 .. code-block:: none
 
     pip install -e .
 
-This tells pip to find ``setup.py`` in the current directory and install
-it in *editable* or *development* mode. Editable mode means that as you
-make changes to your local code, you'll only need to re-install if you
-change the metadata about the project, such as its dependencies.
+이렇게 하면 pip가 현재 디렉터리에서 ``setup.py``\를 찾아서
+*편집 가능* 모드로 (즉 *개발* 모드로) 설치한다. 편집 가능
+모드에서는 로컬 코드에 변경 작업을 해 나가면서 의존성 같은
+프로젝트 메타데이터를 바꾸는 경우에만 재설치를 해 주면 된다.
 
-You can observe that the project is now installed with ``pip list``.
+``pip list``\로 프로젝트가 설치돼 있는 걸 확인할 수 있다.
 
 .. code-block:: none
 
@@ -106,8 +108,8 @@ You can observe that the project is now installed with ``pip list``.
     Werkzeug       0.14.1
     wheel          0.30.0
 
-Nothing changes from how you've been running your project so far.
-``FLASK_APP`` is still set to ``flaskr`` and ``flask run`` still runs
-the application.
+프로젝트를 실행하는 방식은 아무것도 달라지지 않는다. 마찬가지로
+``FLASK_APP``\을 ``flaskr``\로 설정하고서 ``flask run``\으로
+응용을 실행한다.
 
-Continue to :doc:`tests`.
+:doc:`tests` 절로 이어진다.
