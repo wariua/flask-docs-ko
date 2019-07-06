@@ -7,7 +7,7 @@
     :alt: 플라스크: 웹 개발, 한 번에 한 방울씩
     :align: right
 
-플라스크(Flask) 문서를 읽게 된 걸 환영한다. :ref:`installation` 로
+플라스크(Flask) 문서를 읽게 된 걸 환영한다. :ref:`installation` 절로
 시작한 다음 :ref:`quickstart` 절에서 전체적으로 둘러보면 된다. 더 자세한
 :ref:`tutorial` 절에선 작지만 완전한 응용을 플라스크로 만드는 방법을
 보게 된다. 그리고 :ref:`patterns` 절에는 많이 쓰는 패턴들이 설명돼 있다.
