@@ -25,7 +25,7 @@
 1. 먼저 :class:`~flask.Flask` 클래스를 임포트 한다. 이 클래스의 인스턴스가
    우리의 WSGI 응용이 된다.
 2. 다음으로 이 클래스의 인스턴스를 생성한다. 첫 번째 인자는 응용의 모듈
-   이름이나 패키지 이름이다. (이 예처럼) 단일 모듈이라면 ``__name__`` 을
+   이름이나 패키지 이름이다. (이 예처럼) 단일 모듈이라면 ``__name__``\을
    쓰는 게 좋은데, 응용으로 실행되느냐 모듈로 임포트 되느냐에 따라 이름이
    (``'__main__'`` 또는 실제 임포트 이름으로) 달라지기 때문이다. 그래야
    플라스크에서 템플릿, 정적 파일 등을 어디에서 찾아야 할지 알 수 있다.
@@ -35,8 +35,8 @@
 4. 함수에 주는 이름이 그 특정 함수에 대한 URL을 생성하는 데 쓰이기도 한다.
    사용자의 브라우저에 표시하려는 메시지를 함수에서 반환한다.
 
-:file:`hello.py` 나 비슷한 이름으로 저장하자. 응용 이름을 :file:`flask.py`
-라고 하지는 않도록 하자. 플라스크 자체와 충돌하게 된다.
+:file:`hello.py`\나 그 비슷한 이름으로 저장하자. 응용 이름을
+:file:`flask.py`\라고 하지는 않도록 하자. 플라스크 자체와 충돌하게 된다.
 
 :command:`flask` 명령으로, 또는 파이썬 ``-m`` 인자에 플라스크를 지정해서
 응용을 실행할 수 있다. 그 전에 ``FLASK_APP`` 환경 변수를 터미널로 내보여서
@@ -64,7 +64,7 @@
 그러면 아주 간단한 내장 서버가 뜬다. 테스트 용도로는 충분하지만 실제
 운용에서 사용할 만한 건 아니다. 도입 방식에 대해선 :ref:`deployment` 참고.
 
-이제 `http://127.0.0.1:5000/ <http://127.0.0.1:5000/>`_ 로 가 보자. 헬로월드
+이제 `http://127.0.0.1:5000/ <http://127.0.0.1:5000/>`_\로 가 보자. 헬로월드
 인사를 볼 수 있을 것이다.
 
 .. _public-server:
@@ -77,7 +77,7 @@
    실행할 수 있기 때문이다.
 
    디버거를 껐거나 네트워크 상의 사용자들을 믿을 수 있는 경우에는 명령행에
-   ``--host=0.0.0.0`` 만 추가하면 모두가 서버를 쓸 수 있게 된다.
+   ``--host=0.0.0.0``\만 추가하면 모두가 서버를 쓸 수 있게 된다.
 
        flask run --host=0.0.0.0
 
@@ -95,7 +95,7 @@
 ``````````````````
 
 플라스크 버전 0.11 전에서는 응용을 시작하는 방식이 다르다. 요컨대
-:command:`flask` 명령도 없었고 :command:`python -m flask` 도 없었다.
+:command:`flask` 명령도 없었고 :command:`python -m flask`\도 없었다.
 이 경우 두 가지 선택지가 있다. 더 최근의 플라스크 버전으로
 업그레이드 하거나 :ref:`server` 부분에서 서버를 실행하는 다른
 방법을 보면 된다.
@@ -103,7 +103,7 @@
 잘못된 임포트 이름
 ``````````````````
 
-``FLASK_APP`` 환경 변수는 :command:`flask run` 에서 임포트 할 모듈의
+``FLASK_APP`` 환경 변수는 :command:`flask run`\에서 임포트 할 모듈의
 이름이다. 모듈 이름을 잘못 준 경우에는 시작 시에 (또는 디버깅이 켜져
 있으면 응용을 열 때) 임포트 오류가 나게 된다. 뭘 임포트 하려고 했고
 왜 실패했는지 나올 것이다.
@@ -115,7 +115,7 @@
 디버그 모드
 -----------
 
-(오류와 스택 트레이스를 찍고 싶은 건가? :ref:`application-errors` 를 보라.)
+(오류와 스택 트레이스를 찍고 싶은 건가? :ref:`application-errors` 절을 보라.)
 
 :command:`flask` 스크립트로 로컬 개발 서버를 시작하는 게 간편하긴
 하지만 코드에 변경이 있을 때마다 수동으로 재시작을 해 줘야 한다.
@@ -124,12 +124,12 @@
 유용한 디버거가 제공된다.
 
 모든 개발용 기능들(디버그 모드 포함)을 켜려면 서버 시작 전에 환경
-변수 ``FLASK_ENV`` 를 ``development`` 로 설정해서 내보이면 된다. ::
+변수 ``FLASK_ENV``\를 ``development``\로 설정해서 내보이면 된다. ::
 
     $ export FLASK_ENV=development
     $ flask run
 
-(윈도우에선 ``export`` 대신 ``set`` 을 써야 한다.)
+(윈도우에선 ``export`` 대신 ``set``\을 써야 한다.)
 
 그러면,
 
@@ -137,7 +137,7 @@
 2.  자동 재적재를 활성화하고
 3.  플라스크 응용에 디버그 모드를 켠다.
 
-환경과 별도로 디버그 모드를 제어할 수도 있다. ``FLASK_DEBUG=1`` 을
+환경과 별도로 디버그 모드를 제어할 수도 있다. ``FLASK_DEBUG=1``\을
 내보이면 된다.
 
 더 많은 매개변수들이 있는데 :ref:`server` 부분에서 설명한다.
@@ -156,11 +156,11 @@
    :class: screenshot
    :alt: 디버거 동작 스크린샷
 
-디버거 사용에 대한 내용은 `Werkzeug 문서`_ 에서 볼 수 있다.
+디버거 사용에 대한 내용은 `Werkzeug 문서`_\에서 볼 수 있다.
 
 .. _Werkzeug 문서: http://werkzeug.pocoo.org/docs/debug/#using-the-debugger
 
-다른 디버거를 생각하고 있다면? :ref:`working-with-debuggers` 를 보라.
+다른 디버거를 생각하고 있다면? :ref:`working-with-debuggers` 절을 보라.
 
 
 루트 만들기
@@ -188,8 +188,8 @@
 `````````
 
 URL에 ``<변수_이름>`` 표시를 해서 변수 부분을 추가할 수 있다.
-그러면 함수에서 그 ``<변수_이름>`` 을 키워드 인자로 받는다.
-선택적으로 ``<변환자:변수_이름>`` 처럼 변환자를 써서 인자 타입을
+그러면 함수에서 그 ``<변수_이름>``\을 키워드 인자로 받는다.
+선택적으로 ``<변환자:변수_이름>``\처럼 변환자를 써서 인자 타입을
 지정할 수 있다. ::
 
     @app.route('/user/<username>')
@@ -213,7 +213,7 @@ URL에 ``<변수_이름>`` 표시를 해서 변수 부분을 추가할 수 있�
 ``string`` (기본) 슬래시 없는 텍스트 받음
 ``int``    양의 정수 받음
 ``float``  양의 실수 받음
-``path``   ``string`` 과 같되 슬래시도 받아들임
+``path``   ``string``\과 같되 슬래시도 받아들임
 ``uuid``   UUID 문자열 받음
 ========== ==========================================
 
@@ -252,8 +252,8 @@ URL 만들기
 부분에 각기 대응하는 임의 개수의 키워드 인자를 받는다.
 대응하는 변수 부분이 없으면 URL 뒤에 질의 매개변수로 덧붙는다.
 
-왜 템플릿에 하드 코딩 하는 대신 URL 역함수 :func:`~flask.url_for`
-를 써서 URL를 만들어야 할까?
+왜 템플릿에 하드 코딩 하는 대신 URL 역함수
+:func:`~flask.url_for`\를 써서 URL을 만들어야 할까?
 
 1. 역함수가 URL을 하드 코딩 하는 것보다 서술적인 경우가 많다.
 2. 하드 코딩 된 URL들을 기억했다가 직접 바꿀 필요 없이 한 번에
@@ -262,13 +262,13 @@ URL 만들기
    데이터를 투명하게 처리해 준다.
 4. 생성되는 경로가 항상 절대 경로여서 브라우저에서 상대 경로의
    예기치 못한 동작을 피한다.
-5. 응용을 URL 루트 밖에, 가령 ``/`` 대신 ``/myapplication`` 에
-   두는 경우에 :func:`~flask.url_for` 가 그걸 제대로 처리해
+5. 응용을 URL 루트 밖에, 가령 ``/`` 대신 ``/myapplication``\에
+   두는 경우에 :func:`~flask.url_for`\가 그걸 제대로 처리해
    준다.
 
 예를 들어 다음과 같이 :meth:`~flask.Flask.test_request_context`
-메소드를 사용해 :func:`~flask.url_for` 를 써 볼 수 있다.
-:meth:`~flask.Flask.test_request_context` 는 파이썬 셸을 쓰는
+메소드를 사용해 :func:`~flask.url_for`\를 써 볼 수 있다.
+:meth:`~flask.Flask.test_request_context`\는 파이썬 셸을 쓰는
 동안에도 플라스크가 요청을 처리할 때처럼 동작하게 한다.
 :ref:`context-locals` 참고. ::
 
@@ -316,8 +316,8 @@ HTTP 메소드
         else:
             return show_the_login_form()
 
-``GET`` 이 있으면 플라스크에서 자동으로 ``HEAD`` 메소드 지원을 추가해서
-`HTTP RFC`_ 에 따라 ``HEAD`` 요청을 처리한다. 마찬가지로 ``OPTIONS`` 를
+``GET``\이 있으면 플라스크에서 자동으로 ``HEAD`` 메소드 지원을 추가해서
+`HTTP RFC`_\에 따라 ``HEAD`` 요청을 처리한다. 마찬가지로 ``OPTIONS``\를
 자동으로 처리해 준다.
 
 .. _HTTP RFC: https://www.ietf.org/rfc/rfc2068.txt
@@ -328,15 +328,15 @@ HTTP 메소드
 동적 웹 응용에서도 정적 파일이 필요하다. 보통 CSS와 자바스크립트
 파일들이 해당된다. 이상적으로는 웹 서버가 그 파일들을 다루도록
 구성하게 되겠지만 개발 중에는 플라스크가 그 역할을 해 줄 수도 있다.
-패키지 안이나 모듈 바로 옆에 :file:`static` 이라는 폴더를 만들기만
-하면 응용에서 ``/static`` 으로 쓸 수 있게 된다.
+패키지 안이나 모듈 바로 옆에 :file:`static`\이라는 폴더를 만들기만
+하면 응용에서 ``/static`` 경로로 이용할 수 있게 된다.
 
-정적 파일에 대한 URL을 만들려면 특수 종점명 ``'static'`` 을 쓰면
+정적 파일에 대한 URL을 만들려면 특수 종점명 ``'static'``\을 쓰면
 된다. ::
 
     url_for('static', filename='style.css')
 
-파일 시스템 상에 파일이 :file:`static/style.css` 로 저장돼 있으면
+파일 시스템 상에 파일이 :file:`static/style.css`\로 저장돼 있으면
 된다.
 
 템플릿 렌더링
@@ -377,7 +377,7 @@ HTTP 메소드
             /hello.html
 
 템플릿에서 Jinja2 템플릿 기능 전부를 이용할 수 있다. 자세한 내용은
-공식 `Jinja2 문서 <http://jinja.pocoo.org/docs/templates>`_ 를 보라.
+공식 `Jinja2 문서 <http://jinja.pocoo.org/docs/templates>`_\를 보라.
 
 다음은 예시 템플릿이다.:
 
@@ -400,7 +400,7 @@ HTTP 메소드
 템플릿 상속을 통해 (헤더, 메뉴, 푸터 같은) 특정 요소들을 각
 페이지마다 넣는 게 가능하다.
 
-자동 이스케이핑이 켜져 있으므로 ``name`` 에 HTML이 들어 있으면
+자동 이스케이핑이 켜져 있으므로 ``name``\에 HTML이 들어 있으면
 자동으로 이스케이프 된다. 변수를 신뢰할 수 있고 그게 안전한
 HTML이란 걸 알고 있다면 (예를 들어 위키 마크업을 HTML로 변환하는
 모듈에서 온 경우) :class:`~jinja2.Markup` 클래스를 쓰거나
@@ -421,7 +421,7 @@ HTML이란 걸 알고 있다면 (예를 들어 위키 마크업을 HTML로 변�
 .. versionchanged:: 0.5
 
    이제는 자동 이스케이핑이 모든 템플릿에 켜지지 않는다. 템플릿
-   확장자가 ``.html``, ``.htm``, ``.xml``, ``.xhtml`` 이면 자동
+   확장자가 ``.html``, ``.htm``, ``.xml``, ``.xhtml``\이면 자동
    이스케이핑이 켜진다. 문자열에서 적재한 템플릿에선 자동
    이스케이핑이 꺼져 있다.
 
@@ -497,7 +497,7 @@ API 절에서 request 객체를 설명하고 있으므로 여기에선 자세히
     from flask import request
 
 :attr:`~flask.Request.method` 속성을 이용해 현재 요청 메소드를 얻을 수
-있다. 폼 데이터(``POST`` 나 ``PUT`` 요청으로 전송된 데이터)에 접근하려면
+있다. 폼 데이터(``POST``\나 ``PUT`` 요청으로 전송된 데이터)에 접근하려면
 :attr:`~flask.Request.form` 속성을 쓰면 된다. 다음은 그 두 속성을 쓰는
 예시이다. ::
 
@@ -515,7 +515,7 @@ API 절에서 request 객체를 설명하고 있으므로 여기에선 자세히
         return render_template('login.html', error=error)
 
 ``form`` 속성에 키가 존재하지 않으면 어떻게 될까? 그 경우 :exc:`KeyError`
-예외가 일어난다. 표준 :exc:`KeyError` 처럼 잡을 수도 있고 안 잡으면
+예외가 일어난다. 표준 :exc:`KeyError`\처럼 잡을 수도 있고 안 잡으면
 404 Bad Request 오류 페이지가 대신 표시된다. 따라서 많은 경우에선 그
 문제를 직접 처리해 주지 않아도 된다.
 
@@ -524,7 +524,7 @@ URL로 전달되는 매개변수(``?key=value``)에 접근하려면
 
     searchword = request.args.get('key', '')
 
-URL 매개변수에 접근할 때 `get` 을 쓰거나 :exc:`KeyError` 를 잡기를
+URL 매개변수에 접근할 때 `get`\을 쓰거나 :exc:`KeyError`\를 잡기를
 권한다. 사용자가 URL을 바꿀 수도 있을 텐데 그 경우 사용자에게 400
 Bad Request 페이지를 보여 주는 건 친절하지가 않기 때문이다.
 
@@ -583,7 +583,7 @@ request 객체에서 :attr:`~flask.request.files` 속성을 살펴보면
 메소드를 쓰면 된다. request 객체의 :attr:`~flask.Request.cookies`
 속성은 클라이언트가 보낸 모든 쿠키들이 있는 딕셔너리이다.
 세션을 이용하고 싶다면 쿠키를 직접 쓰지 말고 플라스크의
-:ref:`sessions` 를 이용하라. 쿠키 위에 보안성이 좀 추가돼 있다.
+:ref:`sessions`\을 이용하라. 쿠키 위에 보안성이 좀 추가돼 있다.
 
 쿠키 읽기::
 
@@ -614,7 +614,7 @@ request 객체에서 :attr:`~flask.request.files` 속성을 살펴보면
 설정하고 싶을 수도 있을 것이다. :ref:`deferred-callbacks`
 패턴을 활용하면 가능하다.
 
-관련해서 :ref:`about-responses` 도 참고.
+관련해서 :ref:`about-responses` 절도 참고.
 
 재지향과 오류
 -------------
@@ -648,7 +648,7 @@ request 객체에서 :attr:`~flask.request.files` 속성을 살펴보면
     def page_not_found(error):
         return render_template('page_not_found.html'), 404
 
-:func:`~flask.render_template` 호출 뒤의 ``404`` 에 유의하자.
+:func:`~flask.render_template` 호출 뒤의 ``404``\에 유의하자.
 페이지의 상태 코드가 찾지 못했다는 뜻인 404여야 한다고 플라스크에게
 알려 주는 것이다. 지정하지 않으면 다 잘 됐다는 의미인 200을 상정한다.
 
@@ -660,8 +660,8 @@ request 객체에서 :attr:`~flask.request.files` 속성을 살펴보면
 -----------
 
 view 함수의 반환 값은 자동으로 response 객체로 변환된다. 반환 값이
-문자열이면 그 문자열을 응답 바디로 하고 상태 코드 ``200 OK`` 에
-mimetype은 :mimetype:`text/html` 인 response 객체로 변환된다.
+문자열이면 그 문자열을 응답 바디로 하고 상태 코드 ``200 OK``\에
+mimetype은 :mimetype:`text/html`\인 response 객체로 변환된다.
 반환 값을 response 객체로 변환할 때 플라스크에서 적용하는 로직은
 다음과 같다.
 
@@ -673,7 +673,7 @@ mimetype은 :mimetype:`text/html` 인 response 객체로 변환된다.
     있다. 그 튜플은 ``(response, status, headers)``,
     ``(response, status)``, ``(response, headers)`` 중 한
     형태여야 한다. ``status`` 값은 상태 코드를 바꾸게 되며
-    ``headers`` 는 추가 헤더 값들의 리스트나 딕셔너리일 수 있다.
+    ``headers``\는 추가 헤더 값들의 리스트나 딕셔너리일 수 있다.
 4.  어느 경우도 아니면 플라스크에서는 반환 값이 유효한 WSGI
     응용이라고 가정하고 그걸 response 객체로 변환하게 된다.
 
@@ -686,7 +686,7 @@ view 내에서 결과 response 객체를 건드리고 싶다면
     def not_found(error):
         return render_template('error.html'), 404
 
-반환 식을 :func:`~flask.make_response` 로 감싸 주기만 하면
+반환 식을 :func:`~flask.make_response`\로 감싸 주기만 하면
 된다. 그리고 response 객체를 얻어서 변경한 다음 반환한다. ::
 
     @app.errorhandler(404)
@@ -700,7 +700,7 @@ view 내에서 결과 response 객체를 건드리고 싶다면
 세션
 ----
 
-request 오브젝트와 더불어 :class:`~flask.session` 이라는 두 번째
+request 오브젝트와 더불어 :class:`~flask.session`\이라는 두 번째
 객체가 있어서 사용자별 정보를 요청들에 걸쳐서 저장할 수 있다.
 세션은 쿠키 상에서 구현돼 있으며 쿠키에 암호학적 서명을 한다.
 즉 사용자가 쿠키의 내용물을 볼 수는 있지만 서명에 쓰인 비밀키를
@@ -740,14 +740,14 @@ request 오브젝트와 더불어 :class:`~flask.session` 이라는 두 번째
         session.pop('username', None)
         return redirect(url_for('index'))
 
-여기 등장하는 :func:`~flask.escape` 는 (이 예처럼) 템플릿을 쓰지
+여기 등장하는 :func:`~flask.escape`\는 (이 예처럼) 템플릿을 쓰지
 않는 경우에 이스케이핑을 해 준다.
 
 .. admonition:: 좋은 비밀키 만드는 방법
 
     비밀키는 가급적 난수적이어야 한다. 운영 체제마다 암호학적 난수
     생성기를 바탕으로 깔끔하게 난수 데이터를 생성하는 방식이 있다.
-    다음 명령으로 :attr:`Flask.secret_key`에 (또는 :data:`SECRET_KEY` 에)
+    다음 명령으로 :attr:`Flask.secret_key`\에 (또는 :data:`SECRET_KEY`\에)
     쓸 값을 얼른 만들 수 있다. ::
 
         $ python -c 'import os; print(os.urandom(16))'
@@ -774,7 +774,7 @@ request 오브젝트와 더불어 :class:`~flask.session` 이라는 두 번째
 템플릿과 결합해서 메시지를 보이게 된다.
 
 메시지를 기입하려면 :func:`~flask.flash` 메소드를 쓰면 된다.
-메시지를 얻어 오려면 :func:`~flask.get_flashed_messages` 를 쓰면
+메시지를 얻어 오려면 :func:`~flask.get_flashed_messages`\를 쓰면
 되고 템플릿에서도 사용 가능하다. :ref:`message-flashing-pattern`
 절에서 제대로 된 사용례를 볼 수 있다.
 
@@ -787,7 +787,7 @@ request 오브젝트와 더불어 :class:`~flask.session` 이라는 두 번째
 때때로 있을 수도 있다. 예를 들어 어떤 클라이언트 측 코드에서 서버로
 HTTP 요청을 보내게 했는데 명백히 잘못된 형식일 수가 있다. 사용자가
 데이터를 조작해서일 수도 있겠고 클라이언트 코드가 오동작해서일 수도
-있을 것이다. 그런 경우에 대부분은 ``400 Bad Request`` 로 응답하면
+있을 것이다. 그런 경우에 대부분은 ``400 Bad Request``\로 응답하면
 그만이지만 때로는 그렇게 해결할 수가 없고 코드가 계속 진행을 해야
 한다.
 
@@ -801,9 +801,9 @@ HTTP 요청을 보내게 했는데 명백히 잘못된 형식일 수가 있다. 
     app.logger.warning('A warning occurred (%d apples)', 42)
     app.logger.error('An error occurred')
 
-``app`` 에 붙어 있는 :attr:`~flask.Flask.logger` 는 표준 logging
-패키지의 :class:`~logging.Logger` 이므로 자세한 내용은
-`logging 문서 <http://docs.python.org/library/logging.html>`_ 를
+``app`` 에 붙어 있는 :attr:`~flask.Flask.logger`\는 표준 logging
+패키지의 :class:`~logging.Logger`\이므로 자세한 내용은
+`logging 문서 <http://docs.python.org/library/logging.html>`_\를
 보면 된다.
 
 :ref:`application-errors` 절로 이어진다.
