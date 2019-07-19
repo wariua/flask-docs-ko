@@ -8,7 +8,7 @@
     mkdir flask-tutorial
     cd flask-tutorial
 
-그리고 :doc:`설치 절차 </installation>` 를 따라 파이썬 가상 환경을
+그리고 :doc:`설치 절차 </installation>`\를 따라 파이썬 가상 환경을
 구성하고 이 프로젝트를 위한 플라스크를 설치한다.
 
 지금부터 이 길라잡이에서는 ``flask-tutorial`` 디렉터리에서 작업이
