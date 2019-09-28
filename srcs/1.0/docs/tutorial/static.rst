@@ -20,7 +20,7 @@ CSS 말고 다른 종류의 정적 파일로 자바스크립트 함수, 로고
 집어넣고 ``url_for('static', filename='...')``\이라고
 참조한다.
 
-이 길라잡이에서 CSS 작성 방법을 다룰 건 아니므로 그냥 다음
+따라하기에서 CSS 작성 방법을 다룰 건 아니므로 그냥 다음
 내용을 ``flaskr/static/style.css`` 파일로 복사하면 된다.
 
 .. code-block:: css
