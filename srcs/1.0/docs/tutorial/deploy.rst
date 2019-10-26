@@ -1,72 +1,70 @@
-Deploy to Production
-====================
+현장에 배치하기
+===============
 
-This part of the tutorial assumes you have a server that you want to
-deploy your application to. It gives an overview of how to create the
-distribution file and install it, but won't go into specifics about
-what server or software to use. You can set up a new environment on your
-development computer to try out the instructions below, but probably
-shouldn't use it for hosting a real public application. See
-:doc:`/deploying/index` for a list of many different ways to host your
-application.
+이번 따라하기에서는 응용을 배치할 서버가 한 대 있다고 가정한다.
+배포용 파일을 어떻게 만들어서 설치하는지 간단히 살펴보되, 어떤
+서버나 소프트웨어를 쓸 것인지까지는 들어가지 않는다. 개발용
+컴퓨터에 새로 환경을 구성해서 아래 과정을 따라해 볼 수도
+있겠지만 정말 공개할 응용을 올리는 데 쓰지는 말아야 할 것이다.
+응용을 올리는 여러 방식에 대해선 :doc:`/deploying/index` 절을
+보라.
 
 
-Build and Install
------------------
+빌드 및 설치
+------------
 
-When you want to deploy your application elsewhere, you build a
-distribution file. The current standard for Python distribution is the
-*wheel* format, with the ``.whl`` extension. Make sure the wheel library
-is installed first:
+응용을 다른 어딘가에 배치하고 싶을 때는 배포 파일을 만든다.
+현재 파이썬 배포 표준은 ``.whl`` 확장자를 쓰는 *wheel* 형식이다.
+일단 wheel 라이브러리가 설치돼 있어야 한다.
 
 .. code-block:: none
 
     pip install wheel
 
-Running ``setup.py`` with Python gives you a command line tool to issue
-build-related commands. The ``bdist_wheel`` command will build a wheel
-distribution file.
+파이썬으로 ``setup.py``\를 실행하면 빌드 관련 명령을 내릴 수
+있는 명령행 도구가 된다. ``bdist_wheel`` 명령을 주면 wheel
+배포 파일을 빌드 한다.
 
 .. code-block:: none
 
     python setup.py bdist_wheel
 
-You can find the file in ``dist/flaskr-1.0.0-py3-none-any.whl``. The
-file name is the name of the project, the version, and some tags about
-the file can install.
+``dist/flaskr-1.0.0-py3-none-any.whl`` 경로에서 파일을 찾을 수
+있다. 파일 이름은 프로젝트 이름, 버전, 그리고 파일에 대한 몇
+가지 태그들로 돼 있다.
 
-Copy this file to another machine,
-:ref:`set up a new virtualenv <install-create-env>`, then install the
-file with ``pip``.
+이 파일을 다른 머신으로 복사하고
+:ref:`새로 virtualenv를 구성 <install-create-env>`\한 다음
+``pip``\로 파일을 설치하면 된다.
 
 .. code-block:: none
 
     pip install flaskr-1.0.0-py3-none-any.whl
 
-Pip will install your project along with its dependencies.
+pip가 프로젝트와 의존 패키지들을 함께 설치해 줄 것이다.
 
-Since this is a different machine, you need to run ``init-db`` again to
-create the database in the instance folder.
+다른 머신이므로 인스턴스 폴더에서 다시 ``init-db``\를 실행해
+데이터베이스를 만들어야 한다.
 
 .. code-block:: none
 
     export FLASK_APP=flaskr
     flask init-db
 
-When Flask detects that it's installed (not in editable mode), it uses
-a different directory for the instance folder. You can find it at
-``venv/var/flaskr-instance`` instead.
+설치돼 있다는 걸 (즉 편집 가능 모드가 아니라는 걸) 플라스크에서
+감지하면 인스턴스 폴더로 다른 디렉터리를 쓴다.
+``venv/var/flaskr-instance``\에 있다.
 
 
-Configure the Secret Key
-------------------------
+비밀키 설정하기
+---------------
 
-In the beginning of the tutorial that you gave a default value for
-:data:`SECRET_KEY`. This should be changed to some random bytes in
-production. Otherwise, attackers could use the public ``'dev'`` key to
-modify the session cookie, or anything else that uses the secret key.
+따라하기 초반에서 :data:`SECRET_KEY`\에 기본값을 줬다.
+운용 버전에선 그걸 어떤 난수 바이트로 바꿔 줘야 한다.
+안 그러면 공개된 ``'dev'`` 키를 이용해 공격자가 세션 쿠키나
+비밀 키를 쓰는 뭐든 조작할 수 있게 된다.
 
-You can use the following command to output a random secret key:
+다음 명령으로 난수 비밀 키를 만들 수 있다.
 
 .. code-block:: none
 
@@ -74,36 +72,36 @@ You can use the following command to output a random secret key:
 
     b'_5#y2L"F4Q8z\n\xec]/'
 
-Create the ``config.py`` file in the instance folder, which the factory
-will read from if it exists. Copy the generated value into it.
+인스턴스 폴더에 ``config.py`` 파일을 만들어 두면 팩토리가 그걸
+읽게 된다. 생성된 값을 그 파일로 복사하자.
 
 .. code-block:: python
     :caption: ``venv/var/flaskr-instance/config.py``
 
     SECRET_KEY = b'_5#y2L"F4Q8z\n\xec]/'
 
-You can also set any other necessary configuration here, although
-``SECRET_KEY`` is the only one needed for Flaskr.
+필요한 다른 항목이 있으면 마찬가지로 이 파일에서 설정할 수
+있다. 하지만 Flaskr에서는 ``SECRET_KEY``\만 설정하면 된다.
 
 
-Run with a Production Server
-----------------------------
+제품 수준 서버로 돌리기
+-----------------------
 
-When running publicly rather than in development, you should not use the
-built-in development server (``flask run``). The development server is
-provided by Werkzeug for convenience, but is not designed to be
-particularly efficient, stable, or secure.
+개발 중 말고 공개해서 돌릴 때는 내장 개발용 서버(``flask run``)를
+쓰지 말아야 한다. 개발용 서버는 Werkzeug에서 편의를 위해 제공하는
+것일 뿐이며 특별히 효율적이거나 안정적이거나 안전하도록 설계돼
+있지 않다.
 
-Instead, use a production WSGI server. For example, to use `Waitress`_,
-first install it in the virtual environment:
+대신 전용 WSGI 서버를 사용하자. 예를 들어 `Waitress`_\를 쓰려면
+먼저 가상 환경에 설치하면 된다.
 
 .. code-block:: none
 
     pip install waitress
 
-You need to tell Waitress about your application, but it doesn't use
-``FLASK_APP`` like ``flask run`` does. You need to tell it to import and
-call the application factory to get an application object.
+Waitress에게 응용에 대해 알려 줘야 하는데 ``flask run``\에서처럼
+``FLASK_APP``\을 쓰지 않는다. 응용 팩토리를 임포트 하고 호출해서
+응용 객체를 얻도록 해야 한다.
 
 .. code-block:: none
 
@@ -111,11 +109,11 @@ call the application factory to get an application object.
 
     Serving on http://0.0.0.0:8080
 
-See :doc:`/deploying/index` for a list of many different ways to host
-your application. Waitress is just an example, chosen for the tutorial
-because it supports both Windows and Linux. There are many more WSGI
-servers and deployment options that you may choose for your project.
+응용을 올리는 다른 여러 방법들에 대해선 :doc:`/deploying/index`
+절을 보라. Waitress는 예일 뿐이며, 윈도우와 리눅스 모두 지원하기
+때문에 고른 것뿐이다. 프로젝트에 선택해 쓸 수 있는 WSGI 서버와
+배치 방식들이 여러 가지 있다.
 
 .. _Waitress: https://docs.pylonsproject.org/projects/waitress/
 
-Continue to :doc:`next`.
+:doc:`next` 절로 이어진다.
