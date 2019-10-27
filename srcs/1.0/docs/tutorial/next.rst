@@ -1,36 +1,36 @@
-Keep Developing!
+개발은 계속된다!
 ================
 
-You've learned about quite a few Flask and Python concepts throughout
-the tutorial. Go back and review the tutorial and compare your code with
-the steps you took to get there. Compare your project to the
-:gh:`example project <examples/tutorial>`, which might look a bit
-different due to the step-by-step nature of the tutorial.
+따라하기를 통해 플라스크와 파이썬의 여러 개념들에 대해 꽤나
+배웠다. 다시 돌아가 따라하기를 복습하면서 자기가 작성한 코드와
+중간에 거친 단계들을 비교해 보자. 그리고 만든 프로젝트를
+:gh:`예시 프로젝트 <examples/tutorial>`\와 비교해 보자.
+따라하기가 한 단계씩 진행하는 방식이라 약간 다를 수도 있다.
 
-There's a lot more to Flask than what you've seen so far. Even so,
-you're now equipped to start developing your own web applications. Check
-out the :ref:`quickstart` for an overview of what Flask can do, then
-dive into the docs to keep learning. Flask uses `Jinja`_, `Click`_,
-`Werkzeug`_, and `ItsDangerous`_ behind the scenes, and they all have
-their own documentation too. You'll also be interested in
-:ref:`extensions` which make tasks like working with the database or
-validating form data easier and more powerful.
+플라스크에는 지금까지 본 것보다 훨씬 더 많은 내용이 있다.
+하지만 일단 각자의 웹 응용 개발을 시작할 준비는 갖춰졌다.
+:ref:`quickstart` 절에서 플라스크가 뭘 할 수 있는지 대략
+살펴보고 문서를 계속 파고들면서 계속 배워 나가자. 플라스크는
+내부에서 `Jinja`_, `Click`_, `Werkzeug`_, `ItsDangerous`_\를
+쓰는데 모두 각자 문서가 있다. 또 데이터베이스 작업이나
+양식 데이터 검증 등을 더 쉽고 강력하게 만들어 주는
+:ref:`extensions`\에도 관심이 생길 것이다.
 
-If you want to keep developing your Flaskr project, here are some ideas
-for what to try next:
+Flaskr 프로젝트 개발을 계속 진행하고 싶다면 다음으로 시도해
+볼 만한 게 몇 가지 있다.
 
-*   A detail view to show a single post. Click a post's title to go to
-    its page.
-*   Like / unlike a post.
-*   Comments.
-*   Tags. Clicking a tag shows all the posts with that tag.
-*   A search box that filters the index page by name.
-*   Paged display. Only show 5 posts per page.
-*   Upload an image to go along with a post.
-*   Format posts using Markdown.
-*   An RSS feed of new posts.
+*   글 한 편만 보여 주는 상세 뷰. 글 제목을 클릭 하면 그
+    페이지로 간다.
+*   좋아요 / 싫어요.
+*   댓글.
+*   태그. 태그를 클릭 하면 그 태그가 붙은 글을 모두 보여 준다.
+*   인덱스 페이지에 나오는 항목을 이름으로 거르는 검색 상자.
+*   페이지 방식 표시. 페이지당 글 5개씩만 보이기.
+*   이미지 올려서 글에 붙이기.
+*   마크다운으로 글에 서식 주기.
+*   신규 작성 글 RSS 피드.
 
-Have fun and make awesome applications!
+멋진 응용을 신나게 만들어 보자!
 
 .. _Jinja: https://palletsprojects.com/p/jinja/
 .. _Click: https://palletsprojects.com/p/click/
