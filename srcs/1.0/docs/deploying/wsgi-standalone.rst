@@ -23,9 +23,15 @@ For example, to run a Flask application with 4 worker processes (``-w
 
     gunicorn -w 4 -b 127.0.0.1:4000 myproject:app
 
-.. _Gunicorn: http://gunicorn.org/
-.. _eventlet: http://eventlet.net/
-.. _greenlet: https://greenlet.readthedocs.io/en/latest/
+The ``gunicorn`` command expects the names of your application module or
+package and the application instance within the module. If you use the
+application factory pattern, you can pass a call to that::
+
+    $ gunicorn "myproject:create_app()"
+
+.. _Gunicorn: https://gunicorn.org/
+.. _eventlet: https://eventlet.net/
+
 
 uWSGI
 --------
@@ -37,11 +43,10 @@ Running `uWSGI HTTP Router`_::
 
     uwsgi --http 127.0.0.1:5000 --module myproject:app
 
-For a more optimized setup, see `configuring uWSGI and NGINX`_.
+For a more optimized setup, see :doc:`/deploying/uwsgi`.
 
-.. _uWSGI: http://uwsgi-docs.readthedocs.io/en/latest/
-.. _uWSGI HTTP Router: http://uwsgi-docs.readthedocs.io/en/latest/HTTP.html#the-uwsgi-http-https-router
-.. _configuring uWSGI and NGINX: uwsgi.html#starting-your-app-with-uwsgi
+.. _uWSGI: https://uwsgi-docs.readthedocs.io/en/latest/
+.. _uWSGI HTTP Router: https://uwsgi-docs.readthedocs.io/en/latest/HTTP.html#the-uwsgi-http-https-router
 
 Gevent
 -------
@@ -80,7 +85,7 @@ application from ``myproject``::
 
     twistd -n web --port tcp:8080 --wsgi myproject.app
 
-.. _Twisted: https://twistedmatrix.com/
+.. _Twisted: https://twistedmatrix.com/trac/
 .. _Twisted Web: https://twistedmatrix.com/trac/wiki/TwistedWeb
 
 .. _deploying-proxy-setups:
@@ -124,8 +129,8 @@ If your httpd is not providing these headers, the most common setup invokes the
 host being set from ``X-Forwarded-Host`` and the remote address from
 ``X-Forwarded-For``::
 
-    from werkzeug.contrib.fixers import ProxyFix
-    app.wsgi_app = ProxyFix(app.wsgi_app)
+    from werkzeug.middleware.proxy_fix import ProxyFix
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 .. admonition:: Trusting Headers
 

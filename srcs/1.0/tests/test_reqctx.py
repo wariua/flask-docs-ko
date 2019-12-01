@@ -5,8 +5,8 @@
 
     Tests the request context.
 
-    :copyright: © 2010 by the Pallets team.
-    :license: BSD, see LICENSE for more details.
+    :copyright: 2010 Pallets
+    :license: BSD-3-Clause
 """
 
 import pytest
@@ -88,15 +88,10 @@ def test_proper_test_request_context(app):
         assert flask.url_for('sub', _external=True) == \
                'http://foo.localhost.localdomain:5000/'
 
-    try:
+    # suppress Werkzeug 0.15 warning about name mismatch
+    with pytest.warns(None):
         with app.test_request_context('/', environ_overrides={'HTTP_HOST': 'localhost'}):
             pass
-    except ValueError as e:
-        assert str(e) == (
-            "the server name provided "
-            "('localhost.localdomain:5000') does not match the "
-            "server name from the WSGI environment ('localhost')"
-        )
 
     app.config.update(SERVER_NAME='localhost')
     with app.test_request_context('/', environ_overrides={'SERVER_NAME': 'localhost'}):

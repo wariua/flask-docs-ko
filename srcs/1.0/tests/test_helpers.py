@@ -5,8 +5,8 @@
 
     Various helpers.
 
-    :copyright: © 2010 by the Pallets team.
-    :license: BSD, see LICENSE for more details.
+    :copyright: 2010 Pallets
+    :license: BSD-3-Clause
 """
 
 import datetime
@@ -443,7 +443,7 @@ class TestSendfile(object):
             assert rv.data == f.read()
         rv.close()
 
-    def test_send_file_xsendfile(self, app, req_ctx, catch_deprecation_warnings):
+    def test_send_file_xsendfile(self, app, req_ctx):
         app.use_x_sendfile = True
         rv = flask.send_file('static/index.html')
         assert rv.direct_passthrough
@@ -468,8 +468,8 @@ class TestSendfile(object):
     def test_send_file_object_without_mimetype(self, app, req_ctx):
         with pytest.raises(ValueError) as excinfo:
             flask.send_file(StringIO("LOL"))
-        assert 'Unable to infer MIME-type' in str(excinfo)
-        assert 'no filename is available' in str(excinfo)
+        assert 'Unable to infer MIME-type' in str(excinfo.value)
+        assert 'no filename is available' in str(excinfo.value)
 
         flask.send_file(StringIO("LOL"), attachment_filename='filename')
 
@@ -638,15 +638,26 @@ class TestSendfile(object):
         assert options['filename'] == 'index.txt'
         rv.close()
 
-    def test_attachment_with_utf8_filename(self, app, req_ctx):
-        rv = flask.send_file('static/index.html', as_attachment=True, attachment_filename=u'Ñandú／pingüino.txt')
-        content_disposition = set(rv.headers['Content-Disposition'].split('; '))
-        assert content_disposition == set((
-            'attachment',
-            'filename="Nandu/pinguino.txt"',
-            "filename*=UTF-8''%C3%91and%C3%BA%EF%BC%8Fping%C3%BCino.txt"
-        ))
+    @pytest.mark.usefixtures('req_ctx')
+    @pytest.mark.parametrize(('filename', 'ascii', 'utf8'), (
+        ('index.html', 'index.html', False),
+        (u'Ñandú／pingüino.txt', '"Nandu/pinguino.txt"',
+        '%C3%91and%C3%BA%EF%BC%8Fping%C3%BCino.txt'),
+        (u'Vögel.txt', 'Vogel.txt', 'V%C3%B6gel.txt'),
+        # Native string not marked as Unicode on Python 2
+        ('tést.txt', 'test.txt', 't%C3%A9st.txt'),
+        # ":/" are not safe in filename* value
+        (u"те:/ст", '":/"', "%D1%82%D0%B5%3A%2F%D1%81%D1%82"),
+    ))
+    def test_attachment_filename_encoding(self, filename, ascii, utf8):
+        rv = flask.send_file('static/index.html', as_attachment=True, attachment_filename=filename)
         rv.close()
+        content_disposition = rv.headers['Content-Disposition']
+        assert 'filename=%s' % ascii in content_disposition
+        if utf8:
+            assert "filename*=UTF-8''" + utf8 in content_disposition
+        else:
+            assert "filename*=UTF-8''" not in content_disposition
 
     def test_static_file(self, app, req_ctx):
         # default cache timeout is 12 hours

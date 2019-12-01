@@ -72,7 +72,7 @@ templates 디렉터리 같은 기타 파일들을 포함시키기 위해
 사용 파일 및 옵션에 대한 추가 설명은 `공식 패키징 안내서`_\를
 보라.
 
-.. _공식 패키징 안내서: https://packaging.python.org/tutorials/distributing-packages/
+.. _공식 패키징 안내서: https://packaging.python.org/tutorials/packaging-projects/
 
 
 프로젝트 설치하기
@@ -109,7 +109,8 @@ templates 디렉터리 같은 기타 파일들을 포함시키기 위해
     wheel          0.30.0
 
 프로젝트를 실행하는 방식은 아무것도 달라지지 않는다. 마찬가지로
-``FLASK_APP``\을 ``flaskr``\로 설정하고서 ``flask run``\으로
-응용을 실행한다.
+``FLASK_APP``\을 ``flaskr``\로 설정하고 ``flask run``\으로
+응용을 실행한다. 단 ``flask-tutorial`` 디렉터리만이 아니라
+어디서든 호출 가능하다.
 
 :doc:`tests` 절로 이어진다.

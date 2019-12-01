@@ -64,8 +64,8 @@
 그러면 아주 간단한 내장 서버가 뜬다. 테스트 용도로는 충분하지만 실제
 운용에서 사용할 만한 건 아니다. 도입 방식에 대해선 :ref:`deployment` 참고.
 
-이제 `http://127.0.0.1:5000/ <http://127.0.0.1:5000/>`_\로 가 보자. 헬로월드
-인사를 볼 수 있을 것이다.
+이제 http://127.0.0.1:5000/\로 가 보자. 헬로월드 인사를 볼 수 있을
+것이다.
 
 .. _public-server:
 
@@ -158,7 +158,7 @@
 
 디버거 사용에 대한 내용은 `Werkzeug 문서`_\에서 볼 수 있다.
 
-.. _Werkzeug 문서: http://werkzeug.pocoo.org/docs/debug/#using-the-debugger
+.. _Werkzeug 문서: https://werkzeug.palletsprojects.com/debug/#using-the-debugger
 
 다른 디버거를 생각하고 있다면? :ref:`working-with-debuggers` 절을 보라.
 
@@ -195,7 +195,7 @@ URL에 ``<변수_이름>`` 표시를 해서 변수 부분을 추가할 수 있�
     @app.route('/user/<username>')
     def show_user_profile(username):
         # 이 사용자의 사용자 프로필 표시
-        return 'User %s' % username
+        return 'User %s' % escape(username)
 
     @app.route('/post/<int:post_id>')
     def show_post(post_id):
@@ -205,7 +205,7 @@ URL에 ``<변수_이름>`` 표시를 해서 변수 부분을 추가할 수 있�
     @app.route('/path/<path:subpath>')
     def show_subpath(subpath):
         # /path/ 뒤의 하위 경로 표시
-        return 'Subpath %s' % subpath
+        return 'Subpath %s' % escape(subpath)
 
 변환자 종류:
 
@@ -272,7 +272,7 @@ URL 만들기
 동안에도 플라스크가 요청을 처리할 때처럼 동작하게 한다.
 :ref:`context-locals` 참고. ::
 
-    from flask import Flask, url_for
+    from flask import Flask, escape, url_for
 
     app = Flask(__name__)
 
@@ -286,7 +286,7 @@ URL 만들기
 
     @app.route('/user/<username>')
     def profile(username):
-        return '{}\'s profile'.format(username)
+        return '{}\'s profile'.format(escape(username))
 
     with app.test_request_context():
         print(url_for('index'))
@@ -377,7 +377,8 @@ HTTP 메소드
             /hello.html
 
 템플릿에서 Jinja2 템플릿 기능 전부를 이용할 수 있다. 자세한 내용은
-공식 `Jinja2 문서 <http://jinja.pocoo.org/docs/templates>`_\를 보라.
+공식 `Jinja2 템플릿 문서
+<http://jinja.pocoo.org/docs/templates/>`_\를 보라.
 
 다음은 예시 템플릿이다.:
 
@@ -671,9 +672,10 @@ mimetype은 :mimetype:`text/html`\인 response 객체로 변환된다.
     만든다.
 3.  튜플이 반한되는 경우 튜플 안의 항목들이 추가 정보를 줄 수
     있다. 그 튜플은 ``(response, status, headers)``,
-    ``(response, status)``, ``(response, headers)`` 중 한
-    형태여야 한다. ``status`` 값은 상태 코드를 바꾸게 되며
-    ``headers``\는 추가 헤더 값들의 리스트나 딕셔너리일 수 있다.
+    ``(response, headers)``, ``(response, status)`` 중 한
+    형태여야 하며 튜플에 최소 한 항목이 있어야 한다. ``status``
+    값은 상태 코드를 바꾸게 되며 ``headers``\는 추가 헤더
+    값들의 리스트나 딕셔너리일 수 있다.
 4.  어느 경우도 아니면 플라스크에서는 반환 값이 유효한 WSGI
     응용이라고 가정하고 그걸 response 객체로 변환하게 된다.
 
@@ -802,9 +804,8 @@ HTTP 요청을 보내게 했는데 명백히 잘못된 형식일 수가 있다. 
     app.logger.error('An error occurred')
 
 ``app`` 에 붙어 있는 :attr:`~flask.Flask.logger`\는 표준 logging
-패키지의 :class:`~logging.Logger`\이므로 자세한 내용은
-`logging 문서 <http://docs.python.org/library/logging.html>`_\를
-보면 된다.
+패키지의 :class:`~logging.Logger`\이므로 자세한 내용은 공식
+:mod:`logging` 문서를 보면 된다.
 
 :ref:`application-errors` 절로 이어진다.
 

@@ -114,6 +114,6 @@ Waitress에게 응용에 대해 알려 줘야 하는데 ``flask run``\에서처�
 때문에 고른 것뿐이다. 프로젝트에 선택해 쓸 수 있는 WSGI 서버와
 배치 방식들이 여러 가지 있다.
 
-.. _Waitress: https://docs.pylonsproject.org/projects/waitress/
+.. _Waitress: https://docs.pylonsproject.org/projects/waitress/en/stable/
 
 :doc:`next` 절로 이어진다.

@@ -23,11 +23,11 @@
 * `Click`_ 명령행 응용 작성을 위한 프레임워크. ``flask`` 명령이
   이걸로 만들어졌으며 다른 관리 명령들을 추가할 수 있다.
 
-.. _Werkzeug: http://werkzeug.pocoo.org/
-.. _Jinja: http://jinja.pocoo.org/
-.. _MarkupSafe: https://pypi.org/project/MarkupSafe/
-.. _ItsDangerous: https://pythonhosted.org/itsdangerous/
-.. _Click: http://click.pocoo.org/
+.. _Werkzeug: http://palletsprojects.com/p/werkzeug/
+.. _Jinja: http://palletsprojects.com/p/jinja/
+.. _MarkupSafe: https://palletsprojects.com/p/markupsafe/
+.. _ItsDangerous: https://palletsprojects.com/p/itsdangerous/
+.. _Click: http://palletsprojects.com/p/click/
 
 기타 의존 패키지
 ~~~~~~~~~~~~~~~~
@@ -87,12 +87,12 @@
 
     py -3 -m venv venv
 
-파이썬 구식 버전을 사용 중이라 virtualenv를 설치해야 했던 경우라면
-대신 다음 명령을 써야 한다.
+파이썬 2를 사용 중이라 virtualenv를 설치해야 했던 경우라면 대신
+다음 명령을 써야 한다.
 
 .. code-block:: sh
 
-    virtualenv venv
+    python2 -m virtualenv venv
 
 윈도우:
 
@@ -127,6 +127,9 @@
 .. code-block:: sh
 
     pip install Flask
+
+이제 플라스크가 설치됐다. :doc:`/quickstart` 절을 읽어 보거나
+:doc:`문서 개요 </index>`\로 가면 된다.
 
 모험하며 살기
 ~~~~~~~~~~~~~
@@ -174,7 +177,7 @@ virtualenv 설치
     \Python27\python.exe Downloads\get-pip.py
     \Python27\python.exe -m pip install virtualenv
 
-이제 :ref:`install-create-env` 절을 따라가면 된다.
+이제 위로 돌아가 :ref:`install-create-env` 절을 따라가면 된다.
 
 .. _virtualenv: https://virtualenv.pypa.io/
 .. _get-pip.py: https://bootstrap.pypa.io/get-pip.py

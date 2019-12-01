@@ -9,7 +9,7 @@ toggling the debug mode, setting the secret key, and other such
 environment-specific things.
 
 The way Flask is designed usually requires the configuration to be
-available when the application starts up.  You can hardcode the
+available when the application starts up.  You can hard code the
 configuration in the code, which for many small applications is not
 actually that bad, but there are better ways.
 
@@ -301,8 +301,8 @@ The following configuration values are used internally by Flask:
 
     Serialize objects to ASCII-encoded JSON. If this is disabled, the JSON
     will be returned as a Unicode string, or encoded as ``UTF-8`` by
-    ``jsonify``. This has security implications when rendering the JSON in
-    to JavaScript in templates, and should typically remain enabled.
+    ``jsonify``. This has security implications when rendering the JSON into
+    JavaScript in templates, and should typically remain enabled.
 
     Default: ``True``
 
@@ -437,6 +437,7 @@ methods on the config object as well to load from individual files.  For a
 complete reference, read the :class:`~flask.Config` object's
 documentation.
 
+
 Configuring from Environment Variables
 --------------------------------------
 
@@ -448,15 +449,13 @@ Environment variables can be set on Linux or OS X with the export command in
 the shell before starting the server::
 
     $ export SECRET_KEY='5f352379324c22463451387a0aec5d2f'
-    $ export DEBUG=False
+    $ export MAIL_ENABLED=false
     $ python run-app.py
      * Running on http://127.0.0.1:5000/
-     * Restarting with reloader...
 
-On Windows systems use the `set` builtin instead::
+On Windows systems use the ``set`` builtin instead::
 
     >set SECRET_KEY='5f352379324c22463451387a0aec5d2f'
-    >set DEBUG=False
 
 While this approach is straightforward to use, it is important to remember that
 environment variables are strings -- they are not automatically deserialized
@@ -464,17 +463,15 @@ into Python types.
 
 Here is an example of a configuration file that uses environment variables::
 
-    # Example configuration
     import os
 
-    ENVIRONMENT_DEBUG = os.environ.get("DEBUG", default=False)
-    if ENVIRONMENT_DEBUG.lower() in ("f", "false"):
-        ENVIRONMENT_DEBUG = False
+    _mail_enabled = os.environ.get("MAIL_ENABLED", default="true")
+    MAIL_ENABLED = _mail_enabled.lower() in {"1", "t", "true"}
 
-    DEBUG = ENVIRONMENT_DEBUG
-    SECRET_KEY = os.environ.get("SECRET_KEY", default=None)
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+
     if not SECRET_KEY:
-        raise ValueError("No secret key set for Flask application")
+        raise ValueError("No SECRET_KEY set for Flask application")
 
 
 Notice that any value besides an empty string will be interpreted as a boolean
@@ -486,6 +483,7 @@ ability to access the configuration when starting up.  There are other methods
 on the config object as well to load from individual files.  For a complete
 reference, read the :class:`~flask.Config` class documentation.
 
+
 Configuration Best Practices
 ----------------------------
 
@@ -496,7 +494,7 @@ that experience:
 
 1.  Create your application in a function and register blueprints on it.
     That way you can create multiple instances of your application with
-    different configurations attached which makes unittesting a lot
+    different configurations attached which makes unit testing a lot
     easier.  You can use this to pass in configuration as needed.
 
 2.  Do not write code that needs the configuration at import time.  If you
@@ -529,7 +527,7 @@ the config file by adding ``from yourapplication.default_settings
 import *`` to the top of the file and then overriding the changes by hand.
 You could also inspect an environment variable like
 ``YOURAPPLICATION_MODE`` and set that to `production`, `development` etc
-and import different hardcoded files based on that.
+and import different hard-coded files based on that.
 
 An interesting pattern is also to use classes and inheritance for
 configuration::
@@ -552,6 +550,44 @@ To enable such a config you just have to call into
 :meth:`~flask.Config.from_object`::
 
     app.config.from_object('configmodule.ProductionConfig')
+
+Note that :meth:`~flask.Config.from_object` does not instantiate the class
+object. If you need to instantiate the class, such as to access a property,
+then you must do so before calling :meth:`~flask.Config.from_object`::
+
+    from configmodule import ProductionConfig
+    app.config.from_object(ProductionConfig())
+
+    # Alternatively, import via string:
+    from werkzeug.utils import import_string
+    cfg = import_string('configmodule.ProductionConfig')()
+    app.config.from_object(cfg)
+
+Instantiating the configutation object allows you to use ``@property`` in
+your configuration classes::
+
+    class Config(object):
+        """Base config, uses staging database server."""
+        DEBUG = False
+        TESTING = False
+        DB_SERVER = '192.168.1.56'
+
+        @property
+        def DATABASE_URI(self):         # Note: all caps
+            return 'mysql://user@{}/foo'.format(self.DB_SERVER)
+
+    class ProductionConfig(Config):
+        """Uses production database server."""
+        DB_SERVER = '192.168.19.32'
+
+    class DevelopmentConfig(Config):
+        DB_SERVER = 'localhost'
+        DEBUG = True
+
+    class TestingConfig(Config):
+        DB_SERVER = 'localhost'
+        DEBUG = True
+        DATABASE_URI = 'sqlite:///:memory:'
 
 There are many different ways and it's up to you how you want to manage
 your configuration files.  However here a list of good recommendations:
@@ -636,7 +672,7 @@ root” (the default) to “relative to instance folder” via the
     app = Flask(__name__, instance_relative_config=True)
 
 Here is a full example of how to configure Flask to preload the config
-from a module and then override the config from a file in the config
+from a module and then override the config from a file in the instance
 folder if it exists::
 
     app = Flask(__name__, instance_relative_config=True)

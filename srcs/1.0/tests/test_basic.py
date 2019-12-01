@@ -5,8 +5,8 @@
 
     The basic functionality.
 
-    :copyright: © 2010 by the Pallets team.
-    :license: BSD, see LICENSE for more details.
+    :copyright: 2010 Pallets
+    :license: BSD-3-Clause
 """
 
 import re
@@ -1045,7 +1045,7 @@ def test_trapping_of_bad_request_key_errors(app, client):
     with pytest.raises(KeyError) as e:
         client.get("/key")
     assert e.errisinstance(BadRequest)
-    assert 'missing_key' in e.value.description
+    assert 'missing_key' in e.value.get_description()
     rv = client.get('/abort')
     assert rv.status_code == 400
 
@@ -1219,17 +1219,17 @@ def test_response_type_errors():
 
     with pytest.raises(TypeError) as e:
         c.get('/none')
-        assert 'returned None' in str(e)
+        assert 'returned None' in str(e.value)
 
     with pytest.raises(TypeError) as e:
         c.get('/small_tuple')
-        assert 'tuple must have the form' in str(e)
+        assert 'tuple must have the form' in str(e.value)
 
     pytest.raises(TypeError, c.get, '/large_tuple')
 
     with pytest.raises(TypeError) as e:
         c.get('/bad_type')
-        assert 'it was a bool' in str(e)
+        assert 'it was a bool' in str(e.value)
 
     pytest.raises(TypeError, c.get, '/bad_wsgi')
 
@@ -1442,62 +1442,46 @@ def test_request_locals():
     assert not flask.g
 
 
-def test_test_app_proper_environ():
+def test_server_name_subdomain():
     app = flask.Flask(__name__, subdomain_matching=True)
-    app.config.update(
-        SERVER_NAME='localhost.localdomain:5000'
-    )
     client = app.test_client()
 
-    @app.route('/')
+    @app.route("/")
     def index():
-        return 'Foo'
+        return "default"
 
-    @app.route('/', subdomain='foo')
+    @app.route("/", subdomain="foo")
     def subdomain():
-        return 'Foo SubDomain'
+        return "subdomain"
 
-    rv = client.get('/')
-    assert rv.data == b'Foo'
+    app.config["SERVER_NAME"] = "dev.local:5000"
+    rv = client.get("/")
+    assert rv.data == b"default"
 
-    rv = client.get('/', 'http://localhost.localdomain:5000')
-    assert rv.data == b'Foo'
+    rv = client.get("/", "http://dev.local:5000")
+    assert rv.data == b"default"
 
-    rv = client.get('/', 'https://localhost.localdomain:5000')
-    assert rv.data == b'Foo'
+    rv = client.get("/", "https://dev.local:5000")
+    assert rv.data == b"default"
 
-    app.config.update(SERVER_NAME='localhost.localdomain')
-    rv = client.get('/', 'https://localhost.localdomain')
-    assert rv.data == b'Foo'
+    app.config["SERVER_NAME"] = "dev.local:443"
+    rv = client.get("/", "https://dev.local")
 
-    try:
-        app.config.update(SERVER_NAME='localhost.localdomain:443')
-        rv = client.get('/', 'https://localhost.localdomain')
-        # Werkzeug 0.8
+    # Werkzeug 1.0 fixes matching https scheme with 443 port
+    if rv.status_code != 404:
+        assert rv.data == b"default"
+
+    app.config["SERVER_NAME"] = "dev.local"
+    rv = client.get("/", "https://dev.local")
+    assert rv.data == b"default"
+
+    # suppress Werkzeug 1.0 warning about name mismatch
+    with pytest.warns(None):
+        rv = client.get("/", "http://foo.localhost")
         assert rv.status_code == 404
-    except ValueError as e:
-        # Werkzeug 0.7
-        assert str(e) == (
-            "the server name provided "
-            "('localhost.localdomain:443') does not match the "
-            "server name from the WSGI environment ('localhost.localdomain')"
-        )
 
-    try:
-        app.config.update(SERVER_NAME='localhost.localdomain')
-        rv = client.get('/', 'http://foo.localhost')
-        # Werkzeug 0.8
-        assert rv.status_code == 404
-    except ValueError as e:
-        # Werkzeug 0.7
-        assert str(e) == (
-            "the server name provided "
-            "('localhost.localdomain') does not match the "
-            "server name from the WSGI environment ('foo.localhost')"
-        )
-
-    rv = client.get('/', 'http://foo.localhost.localdomain')
-    assert rv.data == b'Foo SubDomain'
+    rv = client.get("/", "http://foo.dev.local")
+    assert rv.data == b"subdomain"
 
 
 def test_exception_propagation(app, client):
@@ -1638,7 +1622,7 @@ def test_debug_mode_complains_after_first_request(app, client):
         @app.route('/foo')
         def broken():
             return 'Meh'
-    assert 'A setup function was called' in str(e)
+    assert 'A setup function was called' in str(e.value)
 
     app.debug = False
 
@@ -1693,9 +1677,9 @@ def test_routing_redirect_debugging(app, client):
     with client:
         with pytest.raises(AssertionError) as e:
             client.post('/foo', data={})
-        assert 'http://localhost/foo/' in str(e)
+        assert 'http://localhost/foo/' in str(e.value)
         assert ('Make sure to directly send '
-                'your POST-request to this URL') in str(e)
+                'your POST-request to this URL') in str(e.value)
 
         rv = client.get('/foo', data={}, follow_redirects=True)
         assert rv.data == b'success'
@@ -1854,9 +1838,11 @@ def test_subdomain_matching_other_name(matching):
     def index():
         return '', 204
 
-    # ip address can't match name
-    rv = client.get('/', 'http://127.0.0.1:3000/')
-    assert rv.status_code == 404 if matching else 204
+    # suppress Werkzeug 0.15 warning about name mismatch
+    with pytest.warns(None):
+        # ip address can't match name
+        rv = client.get('/', 'http://127.0.0.1:3000/')
+        assert rv.status_code == 404 if matching else 204
 
     # allow all subdomains if matching is disabled
     rv = client.get('/', 'http://www.localhost.localdomain:3000/')

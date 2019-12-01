@@ -3,8 +3,8 @@
     tests.test_cli
     ~~~~~~~~~~~~~~
 
-    :copyright: © 2010 by the Pallets team.
-    :license: BSD, see LICENSE for more details.
+    :copyright: 2010 Pallets
+    :license: BSD-3-Clause
 """
 
 # This file was part of Flask-CLI and was modified under the terms of
@@ -241,9 +241,9 @@ def test_locate_app_suppress_raise():
 
 
 def test_get_version(test_apps, capsys):
-    """Test of get_version."""
-    from flask import __version__ as flask_ver
-    from sys import version as py_ver
+    from flask import __version__ as flask_version
+    from werkzeug import __version__ as werkzeug_version
+    from platform import python_version
 
     class MockCtx(object):
         resilient_parsing = False
@@ -254,15 +254,29 @@ def test_get_version(test_apps, capsys):
     ctx = MockCtx()
     get_version(ctx, None, "test")
     out, err = capsys.readouterr()
-    assert flask_ver in out
-    assert py_ver in out
+    assert "Python " + python_version() in out
+    assert "Flask " + flask_version in out
+    assert "Werkzeug " + werkzeug_version in out
 
 
 def test_scriptinfo(test_apps, monkeypatch):
     """Test of ScriptInfo."""
     obj = ScriptInfo(app_import_path="cliapp.app:testapp")
-    assert obj.load_app().name == "testapp"
-    assert obj.load_app().name == "testapp"
+    app = obj.load_app()
+    assert app.name == "testapp"
+    assert obj.load_app() is app
+
+    # import app with module's absolute path
+    cli_app_path = os.path.abspath(os.path.join(
+            os.path.dirname(__file__), 'test_apps', 'cliapp', 'app.py'))
+    obj = ScriptInfo(app_import_path=cli_app_path)
+    app = obj.load_app()
+    assert app.name == 'testapp'
+    assert obj.load_app() is app
+    obj = ScriptInfo(app_import_path=cli_app_path + ':testapp')
+    app = obj.load_app()
+    assert app.name == 'testapp'
+    assert obj.load_app() is app
 
     def create_app(info):
         return Flask("createapp")
@@ -270,7 +284,7 @@ def test_scriptinfo(test_apps, monkeypatch):
     obj = ScriptInfo(create_app=create_app)
     app = obj.load_app()
     assert app.name == "createapp"
-    assert obj.load_app() == app
+    assert obj.load_app() is app
 
     obj = ScriptInfo()
     pytest.raises(NoAppException, obj.load_app)
@@ -354,6 +368,28 @@ def test_flaskgroup(runner):
     result = runner.invoke(cli, ['test'])
     assert result.exit_code == 0
     assert result.output == 'flaskgroup\n'
+
+
+@pytest.mark.parametrize('set_debug_flag', (True, False))
+def test_flaskgroup_debug(runner, set_debug_flag):
+    """Test FlaskGroup debug flag behavior."""
+
+    def create_app(info):
+        app = Flask("flaskgroup")
+        app.debug = True
+        return app
+
+    @click.group(cls=FlaskGroup, create_app=create_app, set_debug_flag=set_debug_flag)
+    def cli(**params):
+        pass
+
+    @cli.command()
+    def test():
+        click.echo(str(current_app.debug))
+
+    result = runner.invoke(cli, ['test'])
+    assert result.exit_code == 0
+    assert result.output == '%s\n' % str(not set_debug_flag)
 
 
 def test_print_exceptions(runner):
@@ -521,12 +557,12 @@ def test_run_cert_import(monkeypatch):
         run_command.make_context('run', ['--cert', 'not_here'])
 
     # not an SSLContext
-    if sys.version_info >= (2, 7):
+    if sys.version_info >= (2, 7, 9):
         with pytest.raises(click.BadParameter):
             run_command.make_context('run', ['--cert', 'flask'])
 
     # SSLContext
-    if sys.version_info < (2, 7):
+    if sys.version_info < (2, 7, 9):
         ssl_context = object()
     else:
         ssl_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)

@@ -187,7 +187,7 @@ Pytest에서는 테스트 함수의 인자 이름과 일치하는 함수 이름�
         with pytest.raises(sqlite3.ProgrammingError) as e:
             db.execute('SELECT 1')
 
-        assert 'closed' in str(e)
+        assert 'closed' in str(e.value)
 
 ``init-db`` 명령이 ``init_db`` 함수를 호출하고 메시지를
 출력해야 한다.

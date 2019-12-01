@@ -34,10 +34,10 @@
 오류 알림 이메일은 아주 심각한 것만 보낸다 해도 일정 이상의
 사용자가 오류를 일으키면 감당이 어려워질 수 있고 로그 파일은 보통
 절대 들여다보지 않는다. 그래서 우리는 응용 오류를 다루는 데
-`Sentry <https://www.getsentry.com/>`_\를 권장한다.
+`Sentry <https://sentry.io/welcome/>`_\를 권장한다.
 `GitHub에 <https://github.com/getsentry/sentry>`__ 오픈 소스
 프로젝트로 있고 무료로 써 볼 수 있는 `호스팅 버전
-<https://getsentry.com/signup/>`_\도 있다. Sentry는 중복 오류를
+<https://sentry.io/signup/>`_\도 있다. Sentry는 중복 오류를
 모아 주고, 디버깅을 위해 전체 스택 트레이스와 지역 변수들을
 수집해 주며, 신규 오류나 발생 빈도 기준에 따라 메일을 보내 준다.
 

@@ -21,8 +21,7 @@
 
     pip install pytest
 
-.. _pytest:
-   https://pytest.org
+.. _pytest: https://docs.pytest.org/
 
 응용
 ----
@@ -352,14 +351,16 @@ HTML이 의도한 대로 본문에서는 허용되고 제목에서는 안 되는
 하지만 이 방법으로는 세션을 변경하거나 요청을 날리기 전에 세션에
 접근하는 게 불가능하다. 플라스크 0.8부터는 "세션 트랜잭션"이라는
 게 있어서 테스트 클라이언트 문맥에서 세션을 열고 그 내용을 변경하는
-적절한 호출들을 흉내낼 수 있다. 트랜잭션 끝에선 그 세션이 저장된다.
-사용하는 세션 백엔드와는 독립적으로 동작한다. ::
+적절한 호출들을 흉내낼 수 있다. 트랜잭션 마지막에 세션이 저장돼서
+테스트 클라이언트에서 사용할 수 있게 된다. 사용하는 세션 백엔드와는
+독립적으로 동작한다. ::
 
     with app.test_client() as c:
         with c.session_transaction() as sess:
             sess['a_key'] = 'a value'
 
-        # 여기까지 왔으면 세션이 저장돼 있다
+        # 여기까지 왔으면 세션이 저장돼 있어서 클라이언트에서 사용 가능
+        c.get(...)
 
 이 경우에 :data:`flask.session` 프록시가 아니라 ``sess`` 객체를
 써야 한다는 점에 유의하자. 하지만 객체가 제공하는 인터페이스는
@@ -451,5 +452,5 @@ CLI 명령 테스트
         context = hello_command.make_context('hello', ['--name', 'flask'])
         assert context.params['name'] == 'FLASK'
 
-.. _클릭: http://click.pocoo.org/
-.. _테스트를 위한 유틸리티들: http://click.pocoo.org/testing
+.. _클릭: http://click.palletsprojects.com/
+.. _테스트를 위한 유틸리티들: http://click.palletsprojects.com/testing/

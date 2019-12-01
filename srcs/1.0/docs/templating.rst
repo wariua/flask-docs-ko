@@ -10,7 +10,7 @@ Jinja2를 설치하긴 해야 한다. 이 요건은 풍부한 확장들을 위�
 
 이 절에선 Jinja2가 플라스크에 어떻게 통합돼 있는지만 아주 짧게
 소개한다. 템플릿 엔진의 문법에 대해 알고 싶으면 공식
-`Jinja2 템플릿 문서 <http://jinja.pocoo.org/docs/templates>`_\를
+`Jinja2 템플릿 문서 <http://jinja.pocoo.org/docs/templates/>`_\를
 들여다보면 된다.
 
 Jinja 설정
@@ -105,15 +105,24 @@ Jinja2 자체에서 제공하는 필터들에 더해서 다음 필터들을 Jinj
    이 함수는 주어진 객체를 JSON 표현으로 변환한다. 예를 들어
    동적으로 자바스크립트를 생성하려 할 때 아주 유용하다.
 
-   ``script`` 태그 내에선 어떤 이스케이핑도 이뤄져선 안 된다.
-   그래서 플라스크 0.10 전에선 ``script`` 태그 내에서
-   쓰려는 경우에 꼭 ``|safe``\를 써서 이스케이핑을 꺼 줘야 한다.
-
    .. sourcecode:: html+jinja
 
        <script type=text/javascript>
-           doSomethingWith({{ user.username|tojson|safe }});
+           doSomethingWith({{ user.username|tojson }});
        </script>
+
+   `|tojson`\의 출력을 *작은 따옴표*\로 된 HTML 속성에도 안전하게
+   쓸 수 있다.
+
+   .. sourcecode:: html+jinja
+
+       <button onclick='doSomethingWith({{ user.username|tojson }})'>
+           Click me
+       </button>
+
+   플라스크 0.10 전 버전에선 ``script`` 안에서 ``|tojson``
+   출력을 쓰려는 경우 ``|safe``\로 이스케이핑을 꺼 줘야 한다.
+   플라스크 0.10부터는 자동으로 그렇게 된다.
 
 자동 이스케이핑 제어하기
 ------------------------
