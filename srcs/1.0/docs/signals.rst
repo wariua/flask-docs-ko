@@ -1,53 +1,55 @@
 .. _signals:
 
-Signals
-=======
+시그널
+======
 
 .. versionadded:: 0.6
 
-Starting with Flask 0.6, there is integrated support for signalling in
-Flask.  This support is provided by the excellent `blinker`_ library and
-will gracefully fall back if it is not available.
+플라스크 0.6부터 시그널 전송을 통합적으로 지원한다. 탁월한
+`blinker`_ 라이브러리로 기능을 제공하는데 사용 가능하지
+않을 때는 매끄럽게 기능이 꺼진다.
 
-What are signals?  Signals help you decouple applications by sending
-notifications when actions occur elsewhere in the core framework or
-another Flask extensions.  In short, signals allow certain senders to
-notify subscribers that something happened.
+시그널이 뭘까? 시그널을 쓰면 코어 프레임워크나 다른 플라스크
+확장 어딘가에서 동작이 일어날 때 알림을 보내기 때문에 응용을
+분리하는 게 쉬워진다. 요컨데 시그널을 쓰면 송신자가 뭔가
+있어났다는 걸 구독자에게 알릴 수 있다.
 
-Flask comes with a couple of signals and other extensions might provide
-more.  Also keep in mind that signals are intended to notify subscribers
-and should not encourage subscribers to modify data.  You will notice that
-there are signals that appear to do the same thing like some of the
-builtin decorators do (eg: :data:`~flask.request_started` is very similar
-to :meth:`~flask.Flask.before_request`).  However, there are differences in
-how they work.  The core :meth:`~flask.Flask.before_request` handler, for
-example, is executed in a specific order and is able to abort the request
-early by returning a response.  In contrast all signal handlers are
-executed in undefined order and do not modify any data.
+플라스크에는 두 가지 시그널이 있고 다른 확장들에서 더 많은
+시그널을 제공할 수도 있다. 그리고 염두에 둘 건 시그널은
+구독자에게 알림을 주기 위한 것이므로 구독자에서 데이터를
+변경하도록 하지 말아야 한다는 점이다. 그리고 일부 내장
+데코레이터와 같은 역할을 하는 것처럼 보이는 시그널이 있지만
+(가령 :data:`~flask.request_started`\는
+:meth:`~flask.Flask.before_request`\와 아주 비슷하다.)
+동작 방식에 차이가 있다. 예를 들어 코어의
+:meth:`~flask.Flask.before_request` 핸들러는 특정 순서로
+실행되며 응답을 반환해서 요청을 이른 시점에 중단시킬 수
+있다. 반면 모든 시그널 핸들러는 규정 안 된 순서로 실행되고
+어떤 데이터도 변경하지 않는다.
 
-The big advantage of signals over handlers is that you can safely
-subscribe to them for just a split second.  These temporary
-subscriptions are helpful for unit testing for example.  Say you want to
-know what templates were rendered as part of a request: signals allow you
-to do exactly that.
+핸들러에 대한 시그널의 큰 장점은 안전하게 짧은 시간 동안만
+구독할 수 있다는 점이다. 이런 일시 구독이 예를 들어 유닛
+테스트에 도움이 된다. 가령 요청 처리 과정에서 어떤 템플릿을
+렌더링 했는지 알고 싶다면 시그널이 바로 그걸 할 수 있게
+해 준다.
 
-Subscribing to Signals
-----------------------
+시그널 구독하기
+---------------
 
-To subscribe to a signal, you can use the
-:meth:`~blinker.base.Signal.connect` method of a signal.  The first
-argument is the function that should be called when the signal is emitted,
-the optional second argument specifies a sender.  To unsubscribe from a
-signal, you can use the :meth:`~blinker.base.Signal.disconnect` method.
+시그널을 구독하려면 시그널의 :meth:`~blinker.base.Signal.connect`
+메소드를 사용하면 된다. 첫 번째 인자는 시그널이 나왔을 때
+호출돼야 할 함수고, 선택적인 두 번째 인자는 송신자를
+나타낸다. 시그널 구독을 해제하려면
+:meth:`~blinker.base.Signal.disconnect` 메소드를 쓰면 된다.
 
-For all core Flask signals, the sender is the application that issued the
-signal.  When you subscribe to a signal, be sure to also provide a sender
-unless you really want to listen for signals from all applications.  This is
-especially true if you are developing an extension.
+코어 플라스크의 시그널에서 송신자는 시그널을 날린 응용이다.
+시그널에 구독할 때는 진짜로 모든 응용에서 온 시그널을 듣고
+싶은 게 아니라면 꼭 송신자를 지정해 줘야 한다. 확장을
+개발하려 할 때 특히 그렇다.
 
-For example, here is a helper context manager that can be used in a unit test
-to determine which templates were rendered and what variables were passed
-to the template::
+예를 들어 다음은 유닛 테스트에서 쓸 수 있는 헬퍼 문맥 관리자인데
+어떤 템플릿이 렌더링 됐고 그 템플릿으로 어떤 변수들이 전달됐는지
+알아낼 수 있다. ::
 
     from flask import template_rendered
     from contextlib import contextmanager
@@ -63,7 +65,7 @@ to the template::
         finally:
             template_rendered.disconnect(record, app)
 
-This can now easily be paired with a test client::
+다음처럼 테스트 클라이언트와 쉽게 연계할 수 있다. ::
 
     with captured_templates(app) as templates:
         rv = app.test_client().get('/')
@@ -73,19 +75,17 @@ This can now easily be paired with a test client::
         assert template.name == 'index.html'
         assert len(context['items']) == 10
 
-Make sure to subscribe with an extra ``**extra`` argument so that your
-calls don't fail if Flask introduces new arguments to the signals.
+플라스크에서 시그널에 새 인자를 도입하더라도 호출이 실패하지
+않도록 추가 인자 ``**extra``\를 꼭 받도록 해야 한다.
 
-All the template rendering in the code issued by the application `app`
-in the body of the ``with`` block will now be recorded in the `templates`
-variable.  Whenever a template is rendered, the template object as well as
-context are appended to it.
+그러면 ``with`` 블록 내에서 응용 `app`\이 일으키는 코드 내
+템플릿 렌더링이 모두 `templates` 변수에 기록된다. 템플릿이
+렌더링 될 때마다 템플릿 객체와 문맥이 리스트에 덧붙는다.
 
-Additionally there is a convenient helper method
-(:meth:`~blinker.base.Signal.connected_to`)  that allows you to
-temporarily subscribe a function to a signal with a context manager on
-its own.  Because the return value of the context manager cannot be
-specified that way, you have to pass the list in as an argument::
+추가로 편리한 헬퍼 메소드(:meth:`~blinker.base.Signal.connected_to`)가
+있어서 자체 문맥 관리자로 일시적으로 시그널을 구독할 수 있다.
+문맥 관리자의 반환 값을 앞서처럼 지정할 수 없기 때문에 인자로
+리스트를 줘야 한다. ::
 
     from flask import template_rendered
 
@@ -94,52 +94,51 @@ specified that way, you have to pass the list in as an argument::
             recorded.append((template, context))
         return template_rendered.connected_to(record, app)
 
-The example above would then look like this::
+그러면 위의 예가 다음처럼 된다. ::
 
     templates = []
     with captured_templates(app, templates, **extra):
         ...
         template, context = templates[0]
 
-.. admonition:: Blinker API Changes
+.. admonition:: Blinker API 변경
 
-   The :meth:`~blinker.base.Signal.connected_to` method arrived in Blinker
-   with version 1.1.
+   :meth:`~blinker.base.Signal.connected_to` 메소드는 Blinker 버전
+   1.1에서 등장했다.
 
-Creating Signals
-----------------
+시그널 만들기
+-------------
 
-If you want to use signals in your own application, you can use the
-blinker library directly.  The most common use case are named signals in a
-custom :class:`~blinker.base.Namespace`..  This is what is recommended
-most of the time::
+응용에서 시그널을 쓰고 싶은 경우 blinker 라이브러리를 직접 사용할
+수 있다. 일반적인 사용 방식은 자체 :class:`~blinker.base.Namespace`
+안에 이름 있는 시그널을 만드는 것이다. 대부분의 경우 이 방식을
+권장한다. ::
 
     from blinker import Namespace
     my_signals = Namespace()
 
-Now you can create new signals like this::
+그러면 다음처럼 새 시그널을 만들 수 있다. ::
 
     model_saved = my_signals.signal('model-saved')
 
-The name for the signal here makes it unique and also simplifies
-debugging.  You can access the name of the signal with the
-:attr:`~blinker.base.NamedSignal.name` attribute.
+시그널 이름은 유일성을 제공할 뿐 아니라 디버깅을 쉽게 만들어
+준다. :attr:`~blinker.base.NamedSignal.name` 속성으로 시그널
+이름에 접근할 수 있다.
 
-.. admonition:: For Extension Developers
+.. admonition:: 확장 개발자에게
 
-   If you are writing a Flask extension and you want to gracefully degrade for
-   missing blinker installations, you can do so by using the
-   :class:`flask.signals.Namespace` class.
+   플라스크 확장을 작성하는데 blinker가 설치돼 있지 않은 경우를
+   매끄럽게 처리하고 싶다면 :class:`flask.signals.Namespace`
+   클래스를 쓰면 된다.
 
 .. _signals-sending:
 
-Sending Signals
----------------
+시그널 보내기
+-------------
 
-If you want to emit a signal, you can do so by calling the
-:meth:`~blinker.base.Signal.send` method.  It accepts a sender as first
-argument and optionally some keyword arguments that are forwarded to the
-signal subscribers::
+시그널을 내보내고 싶으면 :meth:`~blinker.base.Signal.send` 메소드를
+호출하면 된다. 첫 번째 인자로 송신자를 받고 선택적으로 몇 가지
+키워드 인자를 받는데 그 인자들이 시그널 구독자에게 전달된다. ::
 
     class Model(object):
         ...
@@ -147,33 +146,34 @@ signal subscribers::
         def save(self):
             model_saved.send(self)
 
-Try to always pick a good sender.  If you have a class that is emitting a
-signal, pass ``self`` as sender.  If you are emitting a signal from a random
-function, you can pass ``current_app._get_current_object()`` as sender.
+송신자를 잘 골라야 한다. 시그널을 내보내는 클래스가 있다면 송신자로
+``self``\를 주면 된다. 임의 함수에서 시그널을 내보이는 경우라면
+``current_app._get_current_object()``\를 송신자로 줄 수 있다.
 
-.. admonition:: Passing Proxies as Senders
+.. admonition:: 프록시를 송신자로 주기
 
-   Never pass :data:`~flask.current_app` as sender to a signal.  Use
-   ``current_app._get_current_object()`` instead.  The reason for this is
-   that :data:`~flask.current_app` is a proxy and not the real application
-   object.
-
-
-Signals and Flask's Request Context
------------------------------------
-
-Signals fully support :ref:`request-context` when receiving signals.
-Context-local variables are consistently available between
-:data:`~flask.request_started` and :data:`~flask.request_finished`, so you can
-rely on :class:`flask.g` and others as needed.  Note the limitations described
-in :ref:`signals-sending` and the :data:`~flask.request_tearing_down` signal.
+   시그널 송신자로 절대 :data:`~flask.current_app`\을 주지 말자.
+   대신 ``current_app._get_current_object()``\를 써야 한다.
+   :data:`~flask.current_app`\이 프록시일 뿐 진짜 응용 객체가
+   아니기 때문이다.
 
 
-Decorator Based Signal Subscriptions
-------------------------------------
+시그널과 플라스크 요청 문맥
+---------------------------
 
-With Blinker 1.1 you can also easily subscribe to signals by using the new
-:meth:`~blinker.base.NamedSignal.connect_via` decorator::
+시그널에서는 수신 시 :ref:`request-context`\을 완전히 지원한다.
+:data:`~flask.request_started`\와 :data:`~flask.request_finished`
+사이에 문맥 로컬인 변수들이 계속 사용 가능하므로 :class:`flask.g`
+몇 기타 변수들을 필요한 대로 쓸 수 있다. :ref:`signals-sending`\에서
+설명하는 제약들과 :data:`~flask.request_tearing_down` 시그널에
+유의하자.
+
+
+데코레이터 기반 시그널 구독
+---------------------------
+
+Blinker 1.1 사용시 :meth:`~blinker.base.NamedSignal.connect_via`
+데코레이터를 써서 쉽게 시그널을 구독할 수도 있다. ::
 
     from flask import template_rendered
 
@@ -181,10 +181,10 @@ With Blinker 1.1 you can also easily subscribe to signals by using the new
     def when_template_rendered(sender, template, context, **extra):
         print 'Template %s is rendered with %s' % (template.name, context)
 
-Core Signals
-------------
+핵심 시그널
+-----------
 
-Take a look at :ref:`core-signals-list` for a list of all builtin signals.
+내장 시그널 전체 목록은 :ref:`core-signals-list` 참고.
 
 
 .. _blinker: https://pypi.org/project/blinker/
